@@ -1,0 +1,603 @@
+# Wear E-commerce Website TODOs
+
+
+## Authentication
+
+-   [ ] Implement Google Sign In functionality
+-   [ ] Implement Apple Sign In functionality
+-   [ ] Add password reset functionality
+-   [ ] Add email verification
+-   [ ] Fix password field names in register form
+-   [ ] Add validation error messages display
+-   [ ] Add "Remember me" functionality in login
+
+## User Interface
+
+-   [ ] Add loading states to forms
+-   [ ] Implement password visibility toggle
+-   [ ] Fix form input padding consistency
+-   [ ] Add proper form validation feedback
+-   [ ] Ensure mobile responsiveness
+-   [ ] Add proper error pages (404, 500, etc.)
+
+## Features
+
+-   [ ] User Profile Management
+
+    -   [ ] Add profile picture upload
+    -   [ ] Add profile information editing
+    -   [ ] Add address management
+
+-   [ ] Product Management
+
+    -   [ ] Create product catalog
+    -   [ ] Add product categories
+    -   [ ] Implement product search
+    -   [ ] Add product filtering
+    -   [ ] Add product sorting
+
+-   [ ] Shopping Cart
+
+    -   [ ] Create cart functionality
+    -   [ ] Add/Remove items
+    -   [ ] Update quantities
+    -   [ ] Save cart for later
+
+-   [ ] Checkout Process
+    -   [ ] Add payment integration
+    -   [ ] Add shipping options
+    -   [ ] Order confirmation
+    -   [ ] Email notifications
+
+## Security
+
+-   [ ] Implement CSRF protection
+-   [ ] Add rate limiting
+-   [ ] Secure file uploads
+-   [ ] Add input sanitization
+-   [ ] Implement proper authorization
+
+## Backend
+
+-   [ ] Set up database migrations
+-   [ ] Create necessary models
+-   [ ] Set up API endpoints
+-   [ ] Implement caching
+-   [ ] Add logging system
+
+## Additional Features
+
+-   [ ] Wishlist functionality
+-   [ ] Product reviews and ratings
+-   [ ] Newsletter subscription
+-   [ ] Order tracking
+-   [ ] Customer support system
+
+
+
+Note: Mark tasks as completed by replacing [ ] with [x] when done.
+
+
+Nice — below is a **single, explicit, step-by-step TODO list** you can paste into your todo file. It walks you from project setup all the way to deployment and covers everything in the PRD: database, models, migrations, controllers (normal vs resource), routes, middleware, policies, Blade layouts/components, admin area, file uploads, payments hooks, and basic testing. Each step contains exact commands, file paths to create/edit, and small examples where necessary so you can copy/paste.
+
+Use it as your canonical guide — follow the steps in order.
+
+---
+
+# TODO: Laravel eCommerce (sell-only) — step-by-step guide
+
+## Prerequisites
+
+* PHP 8.1+ installed, Composer, Node/npm, MySQL/Postgres, Git.
+* Create project folder and open terminal there.
+
+---
+
+## 1. Create Laravel project & basic tools
+
+1. `composer create-project laravel/laravel shop-ease`
+2. `cd shop-ease`
+3. `composer require laravel/breeze --dev` *(or Jetstream if preferred)*
+4. `php artisan breeze:install blade`
+5. `npm install && npm run dev`
+6. Set up `.env` (DB credentials, mail, app url).
+
+   * Update `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`.
+7. `php artisan key:generate`
+
+---
+
+## 2. Create Role column on users and migrate auth
+
+1. Create migration to add `role`:
+
+   ```bash
+   php artisan make:migration add_role_to_users_table --table=users
+   ```
+2. In migration `up()` add:
+
+   ```php
+   $table->string('role')->default('user'); // values: user, admin, superadmin
+   ```
+3. `php artisan migrate`
+
+---
+
+## 3. Create Models + Migrations + Factories
+
+Run these commands (each `-m` creates migration; `-c` creates controller; `-f` factory if useful):
+
+```bash
+php artisan make:model Product -m
+php artisan make:model Category -m
+php artisan make:model Order -m
+php artisan make:model OrderItem -m
+php artisan make:model Cart -m
+php artisan make:model CartItem -m
+php artisan make:model Payment -m
+php artisan make:model Setting -m
+```
+
+### 3.1 Migrations — columns to add (edit migration files)
+
+**products table**
+
+```php
+$table->id();
+$table->foreignId('user_id')->constrained()->cascadeOnDelete(); // owner/admin
+$table->string('name');
+$table->string('slug')->unique();
+$table->text('description')->nullable();
+$table->decimal('price', 10, 2);
+$table->integer('stock')->default(0);
+$table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
+$table->string('image_path')->nullable();
+$table->boolean('is_active')->default(true);
+$table->timestamps();
+```
+
+**categories**
+
+```php
+$table->id();
+$table->string('name');
+$table->string('slug')->unique();
+$table->text('description')->nullable();
+$table->timestamps();
+```
+
+**orders**
+
+```php
+$table->id();
+$table->foreignId('user_id')->constrained()->cascadeOnDelete();
+$table->decimal('total', 12, 2);
+$table->string('status')->default('pending'); // pending, paid, shipped, delivered, cancelled
+$table->string('payment_reference')->nullable();
+$table->timestamps();
+```
+
+**order_items**
+
+```php
+$table->id();
+$table->foreignId('order_id')->constrained()->cascadeOnDelete();
+$table->foreignId('product_id')->constrained()->cascadeOnDelete();
+$table->integer('quantity');
+$table->decimal('price', 10,2);
+$table->timestamps();
+```
+
+**cart, cart_items**
+
+* Cart: `id, user_id (nullable), session_id, created_at, updated_at`
+* CartItem: `cart_id, product_id, quantity`
+
+**payment**
+
+```php
+$table->id();
+$table->foreignId('order_id')->constrained()->cascadeOnDelete();
+$table->decimal('amount', 12,2);
+$table->string('method');
+$table->string('status'); // success, failed, pending
+$table->string('transaction_id')->nullable();
+$table->timestamps();
+```
+
+After editing all migrations:
+`php artisan migrate`
+
+---
+
+## 4. Create Controllers (normal vs resource)
+
+Run these commands:
+
+**Normal controllers**
+
+```bash
+php artisan make:controller HomeController
+php artisan make:controller ProductController
+php artisan make:controller CartController
+php artisan make:controller CheckoutController
+php artisan make:controller OrderController
+php artisan make:controller ProfileController
+php artisan make:controller Admin/AdminController
+php artisan make:controller SuperAdminController
+```
+
+**Resource controllers (admin CRUD)**
+
+```bash
+php artisan make:controller Admin/AdminProductController --resource
+php artisan make:controller Admin/AdminCategoryController --resource
+php artisan make:controller Admin/AdminOrderController --resource
+php artisan make:controller Admin/AdminUserController --resource
+```
+
+---
+
+## 5. Implement Models relationships & fillables
+
+Edit model files under `app/Models`:
+
+**User.php**
+
+```php
+public function products() { return $this->hasMany(Product::class); }
+public function orders() { return $this->hasMany(Order::class); }
+```
+
+**Product.php**
+
+```php
+protected $fillable = ['user_id','name','slug','description','price','stock','category_id','image_path','is_active'];
+public function user() { return $this->belongsTo(User::class); }
+public function category() { return $this->belongsTo(Category::class); }
+```
+
+**Category, Order, OrderItem, Cart etc** — define appropriate relationships:
+
+* `Order` hasMany `OrderItem`, belongsTo `User`.
+* `OrderItem` belongsTo `Order` and `Product`.
+* `Cart` hasMany `CartItem`.
+
+---
+
+## 6. Middleware: IsAdmin, IsSuperAdmin
+
+1. Create middleware:
+
+   ```bash
+   php artisan make:middleware IsAdmin
+   php artisan make:middleware IsSuperAdmin
+   ```
+2. Implement `handle()` in each:
+
+```php
+if (auth()->check() && auth()->user()->role === 'admin') return $next($request);
+abort(403);
+```
+
+3. Register in `app/Http/Kernel.php` under `$routeMiddleware`:
+
+```php
+'isAdmin' => \App\Http\Middleware\IsAdmin::class,
+'isSuperAdmin' => \App\Http\Middleware\IsSuperAdmin::class,
+```
+
+---
+
+## 7. Policies (optional but recommended)
+
+1. Generate policies:
+
+```bash
+php artisan make:policy ProductPolicy --model=Product
+php artisan make:policy OrderPolicy --model=Order
+```
+
+2. Register policies in `AuthServiceProvider.php`.
+3. Implement `view`, `create`, `update`, `delete` logic:
+
+   * `update`/`delete` should allow owner (product.user_id === auth id) or admin.
+
+---
+
+## 8. Routes (web.php)
+
+Replace or extend `routes/web.php` with route groups:
+
+**Guest (public)**
+
+```php
+Route::get('/', [HomeController::class,'index'])->name('home');
+Route::get('/products', [ProductController::class,'index'])->name('products.index');
+Route::get('/products/{product:slug}', [ProductController::class,'show'])->name('products.show');
+Route::get('/cart', [CartController::class,'index'])->name('cart.index');
+Route::post('/cart/add', [CartController::class,'add'])->name('cart.add');
+```
+
+**Auth (user)**
+
+```php
+Route::middleware(['auth'])->group(function(){
+    Route::get('/dashboard', [ProfileController::class,'dashboard'])->name('dashboard');
+    Route::get('/orders', [OrderController::class,'index'])->name('orders.index');
+    Route::get('/orders/{order}', [OrderController::class,'show'])->name('orders.show');
+    Route::get('/checkout', [CheckoutController::class,'index'])->name('checkout.index');
+    Route::post('/checkout', [CheckoutController::class,'process'])->name('checkout.process');
+});
+```
+
+**Admin**
+
+```php
+Route::middleware(['auth','isAdmin'])->prefix('admin')->name('admin.')->group(function(){
+    Route::get('/dashboard', [AdminController::class,'index'])->name('dashboard');
+    Route::resource('products', Admin\AdminProductController::class);
+    Route::resource('categories', Admin\AdminCategoryController::class);
+    Route::resource('orders', Admin\AdminOrderController::class)->only(['index','show','update']);
+    Route::resource('users', Admin\AdminUserController::class)->only(['index','show','edit','update','destroy']);
+});
+```
+
+**Superadmin** — optional similarly with `isSuperAdmin`.
+
+---
+
+## 9. Implement Controllers (skeleton)
+
+Populate controllers with minimal functions. Example snippets:
+
+**ProductController (guest read-only)**
+
+```php
+public function index(Request $r) {
+    $products = Product::where('is_active', true)->paginate(12);
+    return view('guest.products.index', compact('products'));
+}
+public function show(Product $product) {
+    abort_unless($product->is_active, 404);
+    return view('guest.products.show', compact('product'));
+}
+```
+
+**CartController**
+
+* `index()` shows cart (session or user cart)
+* `add(Request $r)` validate product_id, qty -> add to session or Cart model
+* `update()`, `remove()`
+
+**CheckoutController**
+
+* `index()` show checkout form
+* `process()` validate address/payment -> create Order + OrderItems -> call payment service -> redirect
+
+**Admin\AdminProductController (resource)**
+
+* Use standard `index, create, store, show, edit, update, destroy`. Use `request()->validate()` and `Storage::putFile()` for image uploads.
+* Ensure authorization: `authorize('update', $product)` or check admin.
+
+---
+
+## 10. Blade layouts & components
+
+Create these files:
+
+**layouts**
+
+* `resources/views/layouts/guest.blade.php`
+* `resources/views/layouts/app.blade.php`
+* `resources/views/layouts/admin.blade.php`
+* `resources/views/layouts/superadmin.blade.php` (optional)
+
+**components**
+
+* `resources/views/components/guest/navbar.blade.php`
+* `resources/views/components/app/sidebar.blade.php`
+* `resources/views/components/admin/sidebar.blade.php`
+* shared `product-card.blade.php`, `stat-card.blade.php`.
+
+**Usage**
+
+* In a view: `<x-guest-layout>` or create class-based components `php artisan make:component GuestLayout`
+
+---
+
+## 11. Image uploads & storage
+
+1. Use Laravel storage:
+
+   ```bash
+   php artisan storage:link
+   ```
+2. In controller `store()`:
+
+```php
+$path = $request->file('image')->store('products','public');
+$product->image_path = $path;
+```
+
+3. In Blade: `<img src="{{ asset('storage/' . $product->image_path) }}" />`
+
+---
+
+## 12. Payments (integration: Paystack / Stripe / Flutterwave)
+
+1. Decide gateway. (Example: Paystack or Stripe)
+2. Install SDK or use HTTP requests.
+3. Implement `CheckoutController@process`:
+
+   * Create Order with status `pending`
+   * Create OrderItems
+   * Redirect to payment gateway
+   * Implement webhook route to update payment status and order status
+4. Add webhook endpoint in `routes/web.php` with signature verification.
+
+---
+
+## 13. Notifications & Emails
+
+1. Configure `MAIL_*` in `.env`.
+2. Create Notifications / Mailable for:
+
+   * Order confirmation (buyer)
+   * New order (admin)
+3. Use `Mail::to(...)->send(new OrderPlaced($order))`
+
+---
+
+## 14. Admin dashboard analytics
+
+* Use package or build simple counts:
+
+```php
+$productCount = Product::count();
+$orderCount = Order::count();
+$userCount = User::count();
+```
+
+* Use charts (ApexCharts or Laravel Charts) for visualizations.
+
+---
+
+## 15. Policies & Gates (enforce ownership)
+
+* Protect product edits:
+
+```bash
+php artisan make:policy ProductPolicy --model=Product
+```
+
+* In `update` method: `return $user->id === $product->user_id || $user->role === 'admin';`
+
+---
+
+## 16. Seeders & Test Data
+
+1. Create seeders and factories:
+
+   ```bash
+   php artisan make:factory ProductFactory
+   php artisan make:seeder DatabaseSeeder
+   ```
+2. Populate categories, admin user, sample products for development.
+
+---
+
+## 17. Validation, Requests & FormRequests
+
+* Create FormRequest classes:
+
+```bash
+php artisan make:request StoreProductRequest
+php artisan make:request UpdateProductRequest
+```
+
+* Put validation rules (image types, price numeric, stock integer).
+
+---
+
+## 18. Caching & Performance
+
+* Add simple caching for product listing:
+
+```php
+$products = cache()->remember('products.page.'.$page, 60, fn() => Product::paginate(12));
+```
+
+* Consider Redis for session/cache in production.
+
+---
+
+## 19. Queues (emails, long tasks)
+
+1. Configure queue driver in `.env` (database, redis).
+2. `php artisan queue:table` & migrate.
+3. Push email sends to queue using `->queue()`.
+
+---
+
+## 20. Tests (basic)
+
+Create tests:
+
+```bash
+php artisan make:test ProductTest
+php artisan make:test CartTest
+php artisan make:test CheckoutTest
+```
+
+Write simple tests for:
+
+* Viewing product list
+* Adding to cart
+* Creating order (simulate payment)
+
+---
+
+## 21. Security & Access
+
+* Use `->authorize()` in controllers or `Gate::allows`.
+* Escape user inputs in Blade (default `{{ }}`).
+* Store API keys in `.env`.
+* Use `Spatie/laravel-permission` if you need complex roles/permissions.
+
+---
+
+## 22. Deployment checklist
+
+1. Set `APP_ENV=production`, `APP_DEBUG=false`.
+2. Set up server (Forge, Vapor, or VPS).
+3. `composer install --optimize-autoloader --no-dev`
+4. `npm install && npm run build`
+5. `php artisan migrate --force`
+6. `php artisan config:cache && php artisan route:cache && php artisan view:cache`
+7. Set cron for `schedule:run` and workers for queue.
+8. Ensure `storage` and `bootstrap/cache` are writable.
+
+---
+
+## 23. Nice-to-have / Future improvements
+
+* Wishlist persistence for guests (cookie-based) and users.
+* Product slugs & SEO meta.
+* Multi-currency support and localization.
+* Inventory alerts (low stock).
+* Product import/export CSV.
+* Admin activity logs.
+
+---
+
+## 24. Example quick checklist (copy-paste friendly)
+
+* [ ] Create project + Breeze
+* [ ] Add `role` column to users
+* [ ] Create models & migrations (Product, Category, Order, OrderItem, Cart, CartItem, Payment, Setting)
+* [ ] Migrate DB
+* [ ] Create controllers (normal/resource as above)
+* [ ] Implement relationships in models
+* [ ] Create `IsAdmin` and `IsSuperAdmin` middleware and register in Kernel
+* [ ] Create policies for Product and Order
+* [ ] Add routes (guest, auth, admin, superadmin)
+* [ ] Build Blade layouts + components (guest, app, admin, superadmin)
+* [ ] Implement product image upload & `storage:link`
+* [ ] Implement Cart (session + DB)
+* [ ] Implement Checkout + Payment gateway + Webhooks
+* [ ] Implement Notifications (email)
+* [ ] Create admin CRUD UIs and dashboards
+* [ ] Seeders and factories for dev data
+* [ ] Add caching + queues + tests
+* [ ] Prepare for deployment
+
+---
+
+If you want, I can now:
+
+* generate the exact `php artisan make:*` command block again tailored to your project naming, **or**
+* output a ready-to-paste `routes/web.php` file content, or
+* create example `AdminProductController` and `ProductPolicy` code you can paste into your project.
+
+Which of those would you like next?
