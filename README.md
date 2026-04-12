@@ -100,21 +100,4 @@ php artisan test
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👥 Authors
-
-- **Your Name** - *Initial work* - [Your GitHub](https://github.com/yourusername)
-
-## 🙏 Acknowledgments
-
-- Laravel Framework
-- Laravel Breeze for authentication
-- Tailwind CSS for styling
-- All contributors and the open-source community
-
-## 📞 Support
-
-If you have any questions or need help, please open an issue on GitHub or contact the maintainers.
-
----
-
 **Note**: This project is a demonstration of Laravel e-commerce capabilities and may require additional configuration for production deployment.
