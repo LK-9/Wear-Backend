@@ -40,9 +40,18 @@ Route::middleware('auth')->group(function () {
 
     // Shopping Cart
     Route::get('/cart', [CartController::class, 'cart'])->name('cart');
+    Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+    Route::patch('/cart/{cartItem}', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('/cart/{cartItem}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::delete('/cart', [CartController::class, 'clear'])->name('cart.clear');
 
     // Checkout
     Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
+    Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
+    Route::get('/order/{id}/confirmation', [CheckoutController::class, 'confirmation'])->name('order.confirmation');
 });
+
+// Product search and filter
+Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
 
 require __DIR__ . '/auth.php';

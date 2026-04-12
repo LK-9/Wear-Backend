@@ -1,8 +1,8 @@
 # Wear E-commerce Website TODOs - UPDATED BASED ON PROJECT SCAN
 
-## Project Status: ~25% Complete
+## Project Status: ~45% Complete
 
-**Current State**: Laravel project with Breeze auth, static views, but no core e-commerce functionality implemented.
+**Current State**: Laravel project with Breeze auth, and the backend ecommerce core is partially implemented. Dynamic storefront views, admin features, payment, and advanced systems still need work.
 
 ---
 
@@ -26,17 +26,25 @@
 - [x] User pages (cart, checkout, profile) - static only
 - [x] Reusable components (buttons, forms, modals)
 
-### Basic Routing (80% Complete)
+### Basic Routing (90% Complete)
 
 - [x] Public routes (home, shop, blog, contact, faq, 404)
 - [x] Auth routes (profile, cart, checkout)
 - [x] Auth.php routes included
+- [x] Cart/checkout backend routes added
+- [ ] Dynamic product detail route still needs implementation
+- [ ] Product search route exists, but controller method is missing
 
-### Database Foundation (40% Complete)
+### Database Foundation (70% Complete)
 
 - [x] Basic Laravel migrations (users, sessions, etc.)
-- [x] User model with relationships
-- [x] Database seeder with test user
+- [x] Product model and migration
+- [x] Category model and migration
+- [x] Cart and CartItem models and migrations
+- [x] Order and OrderItem models and migrations
+- [ ] Supporting models (Address, Review, Wishlist, ProductImage)
+- [x] Update User model with ecommerce relationships
+- [x] Implement model relationships and methods for core entities
 
 ### Testing (20% Complete)
 
@@ -47,38 +55,40 @@
 
 ## ❌ REMAINING TASKS
 
-### Database & Models (0% Complete)
+### Database & Models (Partial)
 
-- [ ] Create Product model and migration
-- [ ] Create Category model and migration
-- [ ] Create Cart and CartItem models and migrations
-- [ ] Create Order and OrderItem models and migrations
-- [ ] Create supporting models (Address, Review, Wishlist, ProductImage)
-- [ ] Update User model with new relationships
-- [ ] Implement model relationships and methods
+- [ ] Create Address model and migration
+- [ ] Create Review model and migration
+- [ ] Create Wishlist model and migration
+- [ ] Create ProductImage model and migration
+- [ ] Implement Address / Review / Wishlist / ProductImage relationships and methods
+- [ ] Add soft deletes / status flags for supporting entities where needed
 
-### Controllers Implementation (10% Complete)
+### Controllers Implementation (Partial)
 
-- [ ] Update ProductController with full logic (index, show, search, filter)
-- [ ] Implement CartController (add, remove, update, clear items)
-- [ ] Implement CheckoutController (show, store, confirmation)
+- [ ] Add `search()` method to ProductController
+- [ ] Fix product detail routing for slug-based pages
+- [x] Implement CartController (add, remove, update, clear items)
+- [x] Implement CheckoutController (show, store, confirmation)
 - [ ] Create Admin controllers (Product, Category, Order management)
 - [ ] Update BlogController if needed
 
-### Routes Enhancement (20% Complete)
+### Routes Enhancement (Partial)
 
-- [ ] Add product search and filter routes
-- [ ] Add cart CRUD routes
-- [ ] Add checkout and order routes
+- [x] Add cart CRUD routes
+- [x] Add checkout and order routes
+- [x] Add product search route
+- [ ] Add dynamic product detail route
 - [ ] Add admin routes with middleware protection
 - [ ] Add API routes if needed
 
-### Views Dynamic Implementation (20% Complete)
+### Views Dynamic Implementation (0% Complete)
 
 - [ ] Update shop-page.blade.php with real product data
 - [ ] Update shop-detail.blade.php with product details
 - [ ] Update cart.blade.php with dynamic cart items
 - [ ] Update checkout.blade.php with cart summary and forms
+- [ ] Create order confirmation view
 - [ ] Create admin views (product management, category management)
 
 ### Form Requests & Validation (0% Complete)
@@ -87,7 +97,8 @@
 - [ ] Create UpdateProductRequest
 - [ ] Create CheckoutRequest
 - [ ] Create AddToCartRequest
-- [ ] Implement validation rules
+- [ ] Replace inline validation with request classes
+- [ ] Implement validation rules for all forms
 
 ### Authorization & Security (0% Complete)
 
@@ -96,7 +107,7 @@
 - [ ] Create policies (ProductPolicy, OrderPolicy)
 - [ ] Implement role-based access control
 
-### Factories & Seeders (10% Complete)
+### Factories & Seeders (0% Complete)
 
 - [ ] Create ProductFactory
 - [ ] Create CategoryFactory
@@ -127,7 +138,7 @@
 
 ### Advanced Features (0% Complete)
 
-- [ ] Product search and filtering
+- [ ] Product search and filtering UI
 - [ ] Wishlist functionality
 - [ ] Product reviews and ratings
 - [ ] Order tracking
@@ -141,6 +152,21 @@
 - [ ] Create CheckoutTest
 - [ ] Create AdminProductTest
 - [ ] Add integration tests
+
+---
+
+## CURRENT FUNCTIONALITY
+
+- User authentication, registration, email verification, password reset, and profile editing are functional.
+- Core backend models exist: `Product`, `Category`, `Cart`, `CartItem`, `Order`, `OrderItem`.
+- `User` model ecommerce relationships are implemented.
+- Cart backend features are implemented: add, update, remove, clear.
+- Checkout backend flow is implemented with order creation, stock decrement, and confirmation.
+- Product listing controller logic exists and shop routes are in place.
+- Product search route is defined, but the controller method still needs implementation.
+- Product detail logic exists, but route wiring remains static and requires a slug-based route.
+- Frontend views are still mostly static and not fully wired to the backend.
+- Admin, payments, file uploads, notifications, and advanced ecommerce features are not implemented yet.
 
 ---
 
@@ -1041,7 +1067,2390 @@ php artisan test
 
 **Total estimated time: 9-14 hours**
 
+**Total estimated time: 9-14 hours**
+
 ---
 
-_Last updated: March 27, 2026_
-_Project completion status: ~25% → 100%_
+## 📋 DETAILED PHASE 4: VIEWS UPDATE IMPLEMENTATION GUIDE
+
+### Prerequisites Checklist
+
+Before starting Phase 4, ensure you have completed:
+
+- [ ] Phase 1: All supporting models (Address, Review, Wishlist, ProductImage) created and migrated
+- [ ] Phase 2: Controllers enhanced with form requests and validation
+- [ ] Phase 3: Routes updated with dynamic product routing and cart/checkout routes
+- [ ] Database seeded with sample products and categories
+- [ ] Admin user created for testing
+
+### Step 4.1: Update shop-page.blade.php (45-60 minutes)
+
+**Objective:** Transform the static shop page into a dynamic product catalog with search, filtering, and sorting capabilities.
+
+**Step 4.1.1: Examine Current File Structure**
+
+```bash
+# First, let's see what we're working with
+cat resources/views/shop-page.blade.php
+```
+
+**Step 4.1.2: Backup Current File**
+
+```bash
+cp resources/views/shop-page.blade.php resources/views/shop-page.blade.php.backup
+```
+
+**Step 4.1.3: Update the Main Content Area**
+
+**Find the static product grid section** (usually around line 50-100) and replace it with:
+
+```html
+<!-- Search and Filter Section -->
+<div class="shop-controls">
+    <!-- Search Form -->
+    <div class="search-section">
+        <form action="{{ route('shop') }}" method="GET" class="search-form">
+            <input type="text" name="search" value="{{ request('search') }}"
+                   placeholder="Search products..." class="search-input">
+            <button type="submit" class="search-btn">Search</button>
+        </form>
+    </div>
+
+    <!-- Sorting Options -->
+    <div class="sort-section">
+        <form action="{{ route('shop') }}" method="GET" class="sort-form">
+            <input type="hidden" name="search" value="{{ request('search') }}">
+            <input type="hidden" name="category" value="{{ request('category') }}">
+            <select name="sort" onchange="this.form.submit()" class="sort-select">
+                <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>Name A-Z</option>
+                <option value="name" {{ request('sort') == 'name' && request('direction') == 'desc' ? 'selected' : '' }}>Name Z-A</option>
+                <option value="price" {{ request('sort') == 'price' ? 'selected' : '' }}>Price Low-High</option>
+                <option value="price" {{ request('sort') == 'price' && request('direction') == 'desc' ? 'selected' : '' }}>Price High-Low</option>
+                <option value="created_at" {{ request('sort') == 'created_at' ? 'selected' : '' }}>Newest First</option>
+            </select>
+            <input type="hidden" name="direction" value="{{ request('sort') == request('sort', 'name') && request('direction') == 'desc' ? 'asc' : 'desc' }}">
+        </form>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="shop-container">
+    <!-- Category Sidebar -->
+    <aside class="shop-sidebar">
+        <div class="category-filter">
+            <h3>Categories</h3>
+            <ul class="category-list">
+                <li>
+                    <a href="{{ route('shop') }}" class="{{ !request('category') ? 'active' : '' }}">
+                        All Categories
+                    </a>
+                </li>
+                @foreach($categories as $category)
+                <li>
+                    <a href="{{ route('shop', ['category' => $category->id, 'search' => request('search')]) }}"
+                       class="{{ request('category') == $category->id ? 'active' : '' }}">
+                        {{ $category->name }}
+                    </a>
+                </li>
+                @endforeach
+            </ul>
+        </div>
+
+        <!-- Price Filter (Optional) -->
+        <div class="price-filter">
+            <h3>Price Range</h3>
+            <form action="{{ route('shop') }}" method="GET" class="price-form">
+                <input type="hidden" name="search" value="{{ request('search') }}">
+                <input type="hidden" name="category" value="{{ request('category') }}">
+                <div class="price-inputs">
+                    <input type="number" name="min_price" value="{{ request('min_price') }}"
+                           placeholder="Min" class="price-input">
+                    <input type="number" name="max_price" value="{{ request('max_price') }}"
+                           placeholder="Max" class="price-input">
+                </div>
+                <button type="submit" class="filter-btn">Filter</button>
+            </form>
+        </div>
+    </aside>
+
+    <!-- Products Grid -->
+    <main class="products-section">
+        @if($products->count() > 0)
+            <div class="products-grid">
+                @foreach($products as $product)
+                <div class="product-card">
+                    <div class="product-image">
+                        @if($product->primaryImage)
+                            <img src="{{ $product->primaryImage->image_url }}"
+                                 alt="{{ $product->primaryImage->alt_text ?? $product->name }}">
+                        @else
+                            <img src="/images/placeholder-product.jpg" alt="{{ $product->name }}">
+                        @endif
+                        @if($product->stock <= 0)
+                            <span class="out-of-stock">Out of Stock</span>
+                        @endif
+                    </div>
+
+                    <div class="product-info">
+                        <h3 class="product-title">
+                            <a href="{{ route('shop-details', $product->slug) }}">{{ $product->name }}</a>
+                        </h3>
+                        <p class="product-category">{{ $product->category->name }}</p>
+                        <div class="product-rating">
+                            @for($i = 1; $i <= 5; $i++)
+                                <span class="star {{ $i <= $product->average_rating ? 'filled' : '' }}">★</span>
+                            @endfor
+                            <span class="rating-count">({{ $product->review_count }})</span>
+                        </div>
+                        <p class="product-price">${{ number_format($product->price, 2) }}</p>
+
+                        @if($product->stock > 0)
+                        <form action="{{ route('cart.add') }}" method="POST" class="add-to-cart-form">
+                            @csrf
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <input type="number" name="quantity" value="1" min="1" max="{{ $product->stock }}" class="quantity-input">
+                            <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+                        </form>
+                        @else
+                        <button class="out-of-stock-btn" disabled>Out of Stock</button>
+                        @endif
+                    </div>
+                </div>
+                @endforeach
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                {{ $products->appends(request()->query())->links() }}
+            </div>
+        @else
+            <div class="no-products">
+                <h3>No products found</h3>
+                <p>Try adjusting your search or filter criteria.</p>
+                <a href="{{ route('shop') }}" class="clear-filters-btn">Clear Filters</a>
+            </div>
+        @endif
+    </main>
+</div>
+```
+
+**Step 4.1.4: Add Required CSS Classes**
+
+Add these CSS classes to your main CSS file (resources/css/app.css):
+
+```css
+/* Shop Page Styles */
+.shop-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.search-form {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.search-input {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 300px;
+}
+
+.search-btn {
+    padding: 0.5rem 1rem;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.sort-select {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.shop-container {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 2rem;
+}
+
+.shop-sidebar {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    height: fit-content;
+}
+
+.category-list {
+    list-style: none;
+    padding: 0;
+}
+
+.category-list li {
+    margin-bottom: 0.5rem;
+}
+
+.category-list a {
+    color: #333;
+    text-decoration: none;
+    padding: 0.5rem;
+    display: block;
+    border-radius: 4px;
+}
+
+.category-list a.active,
+.category-list a:hover {
+    background: #007bff;
+    color: white;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.product-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+}
+
+.product-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.product-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.out-of-stock {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #dc3545;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.product-info {
+    padding: 1rem;
+}
+
+.product-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.product-title a {
+    color: #333;
+    text-decoration: none;
+}
+
+.product-category {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.product-rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.star {
+    color: #ddd;
+    font-size: 1rem;
+}
+
+.star.filled {
+    color: #ffc107;
+}
+
+.rating-count {
+    margin-left: 0.5rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.product-price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 1rem;
+}
+
+.add-to-cart-form {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.quantity-input {
+    width: 60px;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.add-to-cart-btn,
+.out-of-stock-btn {
+    flex: 1;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.add-to-cart-btn {
+    background: #28a745;
+    color: white;
+}
+
+.add-to-cart-btn:hover {
+    background: #218838;
+}
+
+.out-of-stock-btn {
+    background: #6c757d;
+    color: white;
+    cursor: not-allowed;
+}
+
+.no-products {
+    text-align: center;
+    padding: 3rem;
+}
+
+.clear-filters-btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-top: 1rem;
+}
+```
+
+**Step 4.1.5: Test the Shop Page**
+
+```bash
+# Start the development server
+php artisan serve
+
+# Visit http://localhost:8000/shop
+# Test search functionality
+# Test category filtering
+# Test sorting options
+# Test pagination
+```
+
+### Step 4.2: Update shop-detail.blade.php (30-45 minutes)
+
+**Objective:** Create a detailed product page with dynamic data, add-to-cart functionality, and related products.
+
+**Step 4.2.1: Examine Current File**
+
+```bash
+cat resources/views/shop-detail.blade.php
+```
+
+**Step 4.2.2: Replace Static Content with Dynamic Data**
+
+Replace the main product section with:
+
+```html
+@extends('layouts.app') @section('content')
+<div class="container">
+    <div class="product-detail">
+        <div class="product-gallery">
+            @if($product->primaryImage)
+            <img
+                src="{{ $product->primaryImage->image_url }}"
+                alt="{{ $product->primaryImage->alt_text ?? $product->name }}"
+                class="main-product-image"
+            />
+            @else
+            <img
+                src="/images/placeholder-product.jpg"
+                alt="{{ $product->name }}"
+                class="main-product-image"
+            />
+            @endif @if($product->images->count() > 1)
+            <div class="product-thumbnails">
+                @foreach($product->images as $image)
+                <img
+                    src="{{ $image->image_url }}"
+                    alt="{{ $image->alt_text ?? $product->name }}"
+                    class="thumbnail {{ $image->is_primary ? 'active' : '' }}"
+                />
+                @endforeach
+            </div>
+            @endif
+        </div>
+
+        <div class="product-info">
+            <h1 class="product-title">{{ $product->name }}</h1>
+
+            <div class="product-meta">
+                <span class="product-category">
+                    Category:
+                    <a
+                        href="{{ route('shop', ['category' => $product->category->id]) }}"
+                        >{{ $product->category->name }}</a
+                    >
+                </span>
+
+                <div class="product-rating">
+                    @for($i = 1; $i <= 5; $i++)
+                    <span
+                        class="star {{ $i <= $product->average_rating ? 'filled' : '' }}"
+                        >★</span
+                    >
+                    @endfor
+                    <span class="rating-count"
+                        >({{ $product->review_count }} reviews)</span
+                    >
+                </div>
+
+                <div class="stock-status">
+                    @if($product->stock > 10)
+                    <span class="in-stock"
+                        >✓ In Stock ({{ $product->stock }} available)</span
+                    >
+                    @elseif($product->stock > 0)
+                    <span class="low-stock"
+                        >⚠ Only {{ $product->stock }} left in stock</span
+                    >
+                    @else
+                    <span class="out-of-stock">✗ Out of Stock</span>
+                    @endif
+                </div>
+            </div>
+
+            <div class="product-price">
+                <span class="price"
+                    >${{ number_format($product->price, 2) }}</span
+                >
+            </div>
+
+            <div class="product-description">
+                <h3>Description</h3>
+                <p>{{ $product->description }}</p>
+            </div>
+
+            @if($product->stock > 0)
+            <div class="add-to-cart-section">
+                <form
+                    action="{{ route('cart.add') }}"
+                    method="POST"
+                    class="add-to-cart-form"
+                >
+                    @csrf
+                    <input
+                        type="hidden"
+                        name="product_id"
+                        value="{{ $product->id }}"
+                    />
+
+                    <div class="quantity-selector">
+                        <label for="quantity">Quantity:</label>
+                        <input
+                            type="number"
+                            id="quantity"
+                            name="quantity"
+                            value="1"
+                            min="1"
+                            max="{{ min($product->stock, 99) }}"
+                            class="quantity-input"
+                        />
+                    </div>
+
+                    <button type="submit" class="add-to-cart-btn">
+                        Add to Cart - ${{ number_format($product->price, 2) }}
+                    </button>
+                </form>
+            </div>
+            @else
+            <div class="out-of-stock-notice">
+                <p>
+                    This product is currently out of stock. Please check back
+                    later.
+                </p>
+                <button
+                    class="notify-btn"
+                    onclick="alert('Notification feature coming soon!')"
+                >
+                    Notify When Available
+                </button>
+            </div>
+            @endif
+
+            <div class="product-actions">
+                @auth @php $isInWishlist =
+                auth()->user()->wishlist()->where('product_id',
+                $product->id)->exists(); @endphp
+                <form
+                    action="{{ $isInWishlist ? route('wishlist.remove', $product) : route('wishlist.add', $product) }}"
+                    method="POST"
+                    class="wishlist-form"
+                >
+                    @csrf @if($isInWishlist) @method('DELETE')
+                    <button type="submit" class="wishlist-btn in-wishlist">
+                        ♥ Remove from Wishlist
+                    </button>
+                    @else
+                    <button type="submit" class="wishlist-btn">
+                        ♡ Add to Wishlist
+                    </button>
+                    @endif
+                </form>
+                @else
+                <a href="{{ route('login') }}" class="wishlist-btn"
+                    >♡ Add to Wishlist (Login Required)</a
+                >
+                @endauth
+
+                <button
+                    class="share-btn"
+                    onclick="navigator.share({title: '{{ $product->name }}', url: window.location.href})"
+                >
+                    📤 Share Product
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Products -->
+    @if($relatedProducts->count() > 0)
+    <div class="related-products">
+        <h2>Related Products</h2>
+        <div class="related-grid">
+            @foreach($relatedProducts as $relatedProduct)
+            <div class="related-card">
+                <div class="related-image">
+                    @if($relatedProduct->primaryImage)
+                    <img
+                        src="{{ $relatedProduct->primaryImage->image_url }}"
+                        alt="{{ $relatedProduct->primaryImage->alt_text ?? $relatedProduct->name }}"
+                    />
+                    @else
+                    <img
+                        src="/images/placeholder-product.jpg"
+                        alt="{{ $relatedProduct->name }}"
+                    />
+                    @endif
+                </div>
+                <div class="related-info">
+                    <h4>
+                        <a
+                            href="{{ route('shop-details', $relatedProduct->slug) }}"
+                            >{{ $relatedProduct->name }}</a
+                        >
+                    </h4>
+                    <p class="related-price">
+                        ${{ number_format($relatedProduct->price, 2) }}
+                    </p>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+    @endif
+
+    <!-- Product Reviews -->
+    @if($product->reviews->count() > 0)
+    <div class="product-reviews">
+        <h2>Customer Reviews</h2>
+        <div class="reviews-list">
+            @foreach($product->reviews as $review)
+            <div class="review-item">
+                <div class="review-header">
+                    <div class="review-rating">
+                        @for($i = 1; $i <= 5; $i++)
+                        <span
+                            class="star {{ $i <= $review->rating ? 'filled' : '' }}"
+                            >★</span
+                        >
+                        @endfor
+                    </div>
+                    <div class="review-meta">
+                        <span class="review-author"
+                            >{{ $review->user->name }}</span
+                        >
+                        <span class="review-date"
+                            >{{ $review->created_at->format('M j, Y') }}</span
+                        >
+                        @if($review->is_verified_purchase)
+                        <span class="verified-badge">✓ Verified Purchase</span>
+                        @endif
+                    </div>
+                </div>
+                <div class="review-content">
+                    <p>{{ $review->comment }}</p>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+    @endif
+</div>
+@endsection
+```
+
+**Step 4.2.3: Add Product Detail CSS**
+
+Add to resources/css/app.css:
+
+```css
+/* Product Detail Styles */
+.product-detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.product-gallery {
+    position: relative;
+}
+
+.main-product-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.product-thumbnails {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.thumbnail {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: 0.7;
+    border: 2px solid transparent;
+}
+
+.thumbnail.active,
+.thumbnail:hover {
+    opacity: 1;
+    border-color: #007bff;
+}
+
+.product-info h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.product-meta {
+    margin-bottom: 1.5rem;
+}
+
+.product-category {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #666;
+}
+
+.product-category a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.product-rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.stock-status {
+    font-weight: 500;
+}
+
+.in-stock {
+    color: #28a745;
+}
+
+.low-stock {
+    color: #ffc107;
+}
+
+.out-of-stock {
+    color: #dc3545;
+}
+
+.product-price .price {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.product-description {
+    margin: 2rem 0;
+}
+
+.product-description h3 {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.add-to-cart-section {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+}
+
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.quantity-selector label {
+    font-weight: 500;
+}
+
+.quantity-input {
+    width: 80px;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.add-to-cart-btn {
+    width: 100%;
+    padding: 1rem;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.add-to-cart-btn:hover {
+    background: #218838;
+}
+
+.out-of-stock-notice {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 1rem;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.notify-btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 0.5rem;
+}
+
+.product-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.wishlist-btn,
+.share-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s;
+}
+
+.wishlist-btn.in-wishlist {
+    background: #dc3545;
+    color: white;
+    border-color: #dc3545;
+}
+
+.share-btn {
+    background: #6c757d;
+    color: white;
+}
+
+.related-products {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #ddd;
+}
+
+.related-products h2 {
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.related-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+}
+
+.related-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.related-image {
+    height: 150px;
+    overflow: hidden;
+}
+
+.related-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.related-info {
+    padding: 1rem;
+}
+
+.related-info h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+}
+
+.related-info a {
+    color: #333;
+    text-decoration: none;
+}
+
+.related-price {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.product-reviews {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #ddd;
+}
+
+.product-reviews h2 {
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.review-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.review-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.verified-badge {
+    background: #28a745;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+}
+
+.review-content p {
+    margin: 0;
+    line-height: 1.6;
+}
+```
+
+**Step 4.2.4: Test Product Detail Page**
+
+```bash
+# Visit a product detail page
+# http://localhost:8000/shop/sample-product-slug
+
+# Test add to cart functionality
+# Test wishlist functionality (if logged in)
+# Test image gallery (if multiple images)
+# Check related products display
+```
+
+### Step 4.3: Update cart.blade.php (20-30 minutes)
+
+**Objective:** Create a dynamic cart page with item management and totals calculation.
+
+**Step 4.3.1: Replace Static Cart Content**
+
+Replace the cart content with:
+
+```html
+@extends('layouts.app') @section('content')
+<div class="container">
+    <div class="cart-page">
+        <h1>Shopping Cart</h1>
+
+        @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+        @endif @if(session('error'))
+        <div class="alert alert-error">{{ session('error') }}</div>
+        @endif @if($cart && $cart->items->count() > 0)
+        <div class="cart-content">
+            <div class="cart-items">
+                @foreach($cart->items as $item)
+                <div class="cart-item">
+                    <div class="item-image">
+                        @if($item->product->primaryImage)
+                        <img
+                            src="{{ $item->product->primaryImage->image_url }}"
+                            alt="{{ $item->product->primaryImage->alt_text ?? $item->product->name }}"
+                        />
+                        @else
+                        <img
+                            src="/images/placeholder-product.jpg"
+                            alt="{{ $item->product->name }}"
+                        />
+                        @endif
+                    </div>
+
+                    <div class="item-details">
+                        <h3 class="item-title">
+                            <a
+                                href="{{ route('shop-details', $item->product->slug) }}"
+                                >{{ $item->product->name }}</a
+                            >
+                        </h3>
+                        <p class="item-category">
+                            {{ $item->product->category->name }}
+                        </p>
+                        <p class="item-price">
+                            ${{ number_format($item->product->price, 2) }} each
+                        </p>
+                    </div>
+
+                    <div class="item-quantity">
+                        <form
+                            action="{{ route('cart.update', $item) }}"
+                            method="POST"
+                            class="quantity-form"
+                        >
+                            @csrf @method('PATCH')
+                            <div class="quantity-controls">
+                                <button
+                                    type="button"
+                                    class="quantity-btn"
+                                    onclick="changeQuantity(this, -1)"
+                                >
+                                    -
+                                </button>
+                                <input
+                                    type="number"
+                                    name="quantity"
+                                    value="{{ $item->quantity }}"
+                                    min="1"
+                                    max="{{ $item->product->stock }}"
+                                    class="quantity-input"
+                                    readonly
+                                />
+                                <button
+                                    type="button"
+                                    class="quantity-btn"
+                                    onclick="changeQuantity(this, 1)"
+                                >
+                                    +
+                                </button>
+                            </div>
+                            <button type="submit" class="update-btn">
+                                Update
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="item-total">
+                        <p class="total-price">
+                            ${{ number_format($item->total, 2) }}
+                        </p>
+                    </div>
+
+                    <div class="item-actions">
+                        <form
+                            action="{{ route('cart.remove', $item) }}"
+                            method="POST"
+                            class="remove-form"
+                        >
+                            @csrf @method('DELETE')
+                            <button
+                                type="submit"
+                                class="remove-btn"
+                                onclick="return confirm('Remove this item from cart?')"
+                            >
+                                Remove
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+
+            <div class="cart-summary">
+                <div class="summary-content">
+                    <h3>Cart Summary</h3>
+                    <div class="summary-row">
+                        <span
+                            >Subtotal ({{ $cart->items->sum('quantity') }}
+                            items):</span
+                        >
+                        <span>${{ number_format($cart->total, 2) }}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping:</span>
+                        <span>Calculated at checkout</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax:</span>
+                        <span>Calculated at checkout</span>
+                    </div>
+                    <div class="summary-row total-row">
+                        <span>Estimated Total:</span>
+                        <span>${{ number_format($cart->total, 2) }}</span>
+                    </div>
+
+                    <div class="cart-actions">
+                        <a
+                            href="{{ route('shop') }}"
+                            class="continue-shopping-btn"
+                            >Continue Shopping</a
+                        >
+                        <a href="{{ route('checkout') }}" class="checkout-btn"
+                            >Proceed to Checkout</a
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cart-footer">
+            <form
+                action="{{ route('cart.clear') }}"
+                method="POST"
+                class="clear-cart-form"
+            >
+                @csrf @method('DELETE')
+                <button
+                    type="submit"
+                    class="clear-cart-btn"
+                    onclick="return confirm('Clear entire cart?')"
+                >
+                    Clear Cart
+                </button>
+            </form>
+        </div>
+        @else
+        <div class="empty-cart">
+            <div class="empty-cart-content">
+                <h2>Your cart is empty</h2>
+                <p>Looks like you haven't added any items to your cart yet.</p>
+                <a href="{{ route('shop') }}" class="shop-now-btn"
+                    >Start Shopping</a
+                >
+            </div>
+        </div>
+        @endif
+    </div>
+</div>
+
+<script>
+    function changeQuantity(button, change) {
+        const input = button.parentElement.querySelector(".quantity-input");
+        const currentValue = parseInt(input.value);
+        const newValue = currentValue + change;
+        const maxStock = parseInt(input.getAttribute("max"));
+
+        if (newValue >= 1 && newValue <= maxStock) {
+            input.value = newValue;
+        }
+    }
+</script>
+@endsection
+```
+
+**Step 4.3.2: Add Cart Page CSS**
+
+Add to resources/css/app.css:
+
+```css
+/* Cart Page Styles */
+.cart-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+.cart-page h1 {
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.alert {
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 2rem;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.cart-content {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.cart-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.cart-item {
+    display: grid;
+    grid-template-columns: 100px 1fr 150px 100px 80px;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: white;
+}
+
+.item-image img {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.item-details {
+    min-width: 0;
+}
+
+.item-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.item-title a {
+    color: #333;
+    text-decoration: none;
+}
+
+.item-title a:hover {
+    color: #007bff;
+}
+
+.item-category {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+}
+
+.item-price {
+    color: #007bff;
+    font-weight: 500;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.quantity-btn {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+.quantity-btn:hover {
+    background: #f8f9fa;
+}
+
+.quantity-input {
+    width: 60px;
+    text-align: center;
+    padding: 0.25rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.update-btn {
+    margin-top: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.update-btn:hover {
+    background: #0056b3;
+}
+
+.item-total .total-price {
+    font-weight: bold;
+    color: #28a745;
+}
+
+.remove-btn {
+    padding: 0.25rem 0.5rem;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.remove-btn:hover {
+    background: #c82333;
+}
+
+.cart-summary {
+    background: #f8f9fa;
+    border-radius: 8px;
+    height: fit-content;
+}
+
+.summary-content {
+    padding: 1.5rem;
+}
+
+.summary-content h3 {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #ddd;
+}
+
+.total-row {
+    border-bottom: none;
+    border-top: 2px solid #333;
+    padding-top: 0.5rem;
+    margin-top: 0.5rem;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.cart-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.continue-shopping-btn,
+.checkout-btn {
+    padding: 1rem;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.continue-shopping-btn {
+    background: #6c757d;
+    color: white;
+}
+
+.continue-shopping-btn:hover {
+    background: #5a6268;
+}
+
+.checkout-btn {
+    background: #28a745;
+    color: white;
+}
+
+.checkout-btn:hover {
+    background: #218838;
+}
+
+.cart-footer {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid #ddd;
+}
+
+.clear-cart-btn {
+    padding: 0.5rem 1rem;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.clear-cart-btn:hover {
+    background: #c82333;
+}
+
+.empty-cart {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.empty-cart-content h2 {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.empty-cart-content p {
+    margin-bottom: 2rem;
+    color: #666;
+}
+
+.shop-now-btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.shop-now-btn:hover {
+    background: #0056b3;
+}
+```
+
+**Step 4.3.3: Test Cart Functionality**
+
+```bash
+# Login to an account
+# Add items to cart from shop page
+# Visit /cart
+# Test quantity updates
+# Test item removal
+# Test clear cart
+# Test proceed to checkout
+```
+
+### Step 4.4: Update checkout.blade.php (25-35 minutes)
+
+**Objective:** Create a comprehensive checkout form with cart summary and payment options.
+
+**Step 4.4.1: Replace Static Checkout Content**
+
+Replace with:
+
+```html
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div class="checkout-page">
+        <h1>Checkout</h1>
+
+        @if(session('error'))
+            <div class="alert alert-error">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        @if(!$cart || $cart->items->isEmpty())
+            <div class="empty-checkout">
+                <h2>Your cart is empty</h2>
+                <p>You need items in your cart to proceed with checkout.</p>
+                <a href="{{ route('shop') }}" class="shop-btn">Continue Shopping</a>
+            </div>
+        @else
+            <form action="{{ route('checkout.process') }}" method="POST" class="checkout-form">
+                @csrf
+
+                <div class="checkout-content">
+                    <!-- Billing & Shipping Information -->
+                    <div class="checkout-section">
+                        <h2>Billing & Shipping Information</h2>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="first_name">First Name *</label>
+                                <input type="text" id="first_name" name="first_name"
+                                       value="{{ old('first_name', auth()->user()->name ? explode(' ', auth()->user()->name)[0] : '') }}"
+                                       required class="form-control">
+                                @error('first_name')
+                                    <span class="error-message">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="last_name">Last Name *</label>
+                                <input type="text" id="last_name" name="last_name"
+                                       value="{{ old('last_name', auth()->user()->name ? explode(' ', auth()->user()->name)[1] ?? '' : '') }}"
+                                       required class="form-control">
+                                @error('last_name')
+                                    <span class="error-message">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email"
+                                   value="{{ old('email', auth()->user()->email) }}"
+                                   required class="form-control">
+                            @error('email')
+                                <span class="error-message">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone"
+                                   value="{{ old('phone') }}"
+                                   required class="form-control">
+                            @error('phone')
+                                <span class="error-message">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address">Street Address *</label>
+                            <input type="text" id="address" name="address"
+                                   value="{{ old('address') }}"
+                                   required class="form-control" placeholder="123 Main Street">
+                            @error('address')
+                                <span class="error-message">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city">City *</label>
+                                <input type="text" id="city" name="city"
+                                       value="{{ old('city') }}"
+                                       required class="form-control">
+                                @error('city')
+                                    <span class="error-message">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="state">State *</label>
+                                <input type="text" id="state" name="state"
+                                       value="{{ old('state') }}"
+                                       required class="form-control">
+                                @error('state')
+                                    <span class="error-message">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="zip_code">ZIP Code *</label>
+                                <input type="text" id="zip_code" name="zip_code"
+                                       value="{{ old('zip_code') }}"
+                                       required class="form-control">
+                                @error('zip_code')
+                                    <span class="error-message">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="checkout-section">
+                        <h2>Payment Method</h2>
+
+                        <div class="payment-options">
+                            <div class="payment-option">
+                                <input type="radio" id="cod" name="payment_method" value="cod"
+                                       {{ old('payment_method', 'cod') == 'cod' ? 'checked' : '' }}>
+                                <label for="cod">
+                                    <div class="payment-info">
+                                        <span class="payment-name">Cash on Delivery</span>
+                                        <span class="payment-desc">Pay when you receive your order</span>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="payment-option">
+                                <input type="radio" id="stripe" name="payment_method" value="stripe"
+                                       {{ old('payment_method') == 'stripe' ? 'checked' : '' }}>
+                                <label for="stripe">
+                                    <div class="payment-info">
+                                        <span class="payment-name">Credit/Debit Card</span>
+                                        <span class="payment-desc">Secure payment via Stripe</span>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="payment-option">
+                                <input type="radio" id="paypal" name="payment_method" value="paypal"
+                                       {{ old('payment_method') == 'paypal' ? 'checked' : '' }}>
+                                <label for="paypal">
+                                    <div class="payment-info">
+                                        <span class="payment-name">PayPal</span>
+                                        <span class="payment-desc">Pay with your PayPal account</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        @error('payment_method')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <!-- Order Summary -->
+                    <div class="checkout-section order-summary">
+                        <h2>Order Summary</h2>
+
+                        <div class="order-items">
+                            @foreach($cart->items as $item)
+                            <div class="order-item">
+                                <div class="item-info">
+                                    <span class="item-name">{{ $item->product->name }}</span>
+                                    <span class="item-qty">Qty: {{ $item->quantity }}</span>
+                                </div>
+                                <span class="item-price">${{ number_format($item->total, 2) }}</span>
+                            </div>
+                            @endforeach
+                        </div>
+
+                        <div class="order-totals">
+                            <div class="total-row">
+                                <span>Subtotal:</span>
+                                <span>${{ number_format($cart->total, 2) }}</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Shipping:</span>
+                                <span>Calculated after order</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Tax:</span>
+                                <span>Calculated after order</span>
+                            </div>
+                            <div class="total-row grand-total">
+                                <span>Total:</span>
+                                <span>${{ number_format($cart->total, 2) }}</span>
+                            </div>
+                        </div>
+
+                        <div class="checkout-actions">
+                            <a href="{{ route('cart') }}" class="back-to-cart-btn">← Back to Cart</a>
+                            <button type="submit" class="place-order-btn">Place Order</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        @endif
+    </div>
+</div>
+@endsection
+```
+
+**Step 4.4.2: Add Checkout Page CSS**
+
+Add to resources/css/app.css:
+
+```css
+/* Checkout Page Styles */
+.checkout-page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+.checkout-page h1 {
+    margin-bottom: 2rem;
+    color: #333;
+    text-align: center;
+}
+
+.checkout-form {
+    display: grid;
+    gap: 2rem;
+}
+
+.checkout-content {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 2rem;
+}
+
+.checkout-section {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 2rem;
+}
+
+.checkout-section h2 {
+    margin-bottom: 1.5rem;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+.payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.payment-option {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.payment-option input[type="radio"] {
+    display: none;
+}
+
+.payment-option label {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.payment-option label:hover {
+    background: #f8f9fa;
+}
+
+.payment-option input[type="radio"]:checked + label {
+    background: #e3f2fd;
+    border-left: 4px solid #007bff;
+}
+
+.payment-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.payment-name {
+    font-weight: 500;
+    color: #333;
+}
+
+.payment-desc {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.order-summary {
+    background: #f8f9fa;
+}
+
+.order-items {
+    margin-bottom: 2rem;
+}
+
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.item-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.item-name {
+    font-weight: 500;
+    color: #333;
+}
+
+.item-qty {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.item-price {
+    font-weight: 500;
+    color: #007bff;
+}
+
+.order-totals {
+    border-top: 1px solid #ddd;
+    padding-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.grand-total {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #28a745;
+    border-top: 2px solid #333;
+    padding-top: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.checkout-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.back-to-cart-btn {
+    padding: 0.75rem 1.5rem;
+    background: #6c757d;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+.back-to-cart-btn:hover {
+    background: #5a6268;
+}
+
+.place-order-btn {
+    padding: 0.75rem 2rem;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.place-order-btn:hover {
+    background: #218838;
+}
+
+.empty-checkout {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.empty-checkout h2 {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.empty-checkout p {
+    margin-bottom: 2rem;
+    color: #666;
+}
+
+.shop-btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.shop-btn:hover {
+    background: #0056b3;
+}
+```
+
+**Step 4.4.3: Test Checkout Process**
+
+```bash
+# Add items to cart
+# Visit /checkout
+# Fill out the form
+# Test form validation
+# Submit order (will redirect to confirmation)
+```
+
+### Step 4.5: Create order-confirmation.blade.php (15-20 minutes)
+
+**Objective:** Create a confirmation page showing order details and next steps.
+
+**Step 4.5.1: Create the Confirmation View**
+
+Create resources/views/user/order-confirmation.blade.php:
+
+```html
+@extends('layouts.app') @section('content')
+<div class="container">
+    <div class="order-confirmation">
+        <div class="confirmation-header">
+            <div class="success-icon">✓</div>
+            <h1>Order Confirmed!</h1>
+            <p class="confirmation-message">
+                Thank you for your order! Your order has been successfully
+                placed and is being processed.
+            </p>
+        </div>
+
+        <div class="order-details-card">
+            <div class="order-header">
+                <h2>Order #{{ $order->id }}</h2>
+                <div class="order-status status-{{ $order->status }}">
+                    {{ ucfirst($order->status) }}
+                </div>
+            </div>
+
+            <div class="order-info">
+                <div class="info-section">
+                    <h3>Order Information</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Order Date:</span>
+                            <span class="info-value"
+                                >{{ $order->created_at->format('F j, Y \a\t g:i
+                                A') }}</span
+                            >
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Payment Method:</span>
+                            <span class="info-value"
+                                >{{ ucfirst(str_replace('_', ' ',
+                                $order->payment_method)) }}</span
+                            >
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Order Total:</span>
+                            <span class="info-value total-amount"
+                                >${{ number_format($order->total, 2) }}</span
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <h3>Shipping Address</h3>
+                    <div class="address-display">
+                        @php $shippingAddress =
+                        json_decode($order->shipping_address, true); @endphp
+                        <p>
+                            {{ $shippingAddress['first_name'] }} {{
+                            $shippingAddress['last_name'] }}
+                        </p>
+                        <p>{{ $shippingAddress['address'] }}</p>
+                        @if(isset($shippingAddress['address_line_2']) &&
+                        $shippingAddress['address_line_2'])
+                        <p>{{ $shippingAddress['address_line_2'] }}</p>
+                        @endif
+                        <p>
+                            {{ $shippingAddress['city'] }}, {{
+                            $shippingAddress['state'] }} {{
+                            $shippingAddress['zip_code'] }}
+                        </p>
+                        <p>{{ $shippingAddress['email'] }}</p>
+                        <p>{{ $shippingAddress['phone'] }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-items-section">
+                <h3>Order Items</h3>
+                <div class="order-items-list">
+                    @foreach($order->items as $item)
+                    <div class="order-item">
+                        <div class="item-image">
+                            @if($item->product->primaryImage)
+                            <img
+                                src="{{ $item->product->primaryImage->image_url }}"
+                                alt="{{ $item->product->primaryImage->alt_text ?? $item->product->name }}"
+                            />
+                            @else
+                            <img
+                                src="/images/placeholder-product.jpg"
+                                alt="{{ $item->product->name }}"
+                            />
+                            @endif
+                        </div>
+
+                        <div class="item-details">
+                            <h4 class="item-name">
+                                {{ $item->product->name }}
+                            </h4>
+                            <p class="item-category">
+                                {{ $item->product->category->name }}
+                            </p>
+                            <div class="item-meta">
+                                <span class="item-quantity"
+                                    >Quantity: {{ $item->quantity }}</span
+                                >
+                                <span class="item-price"
+                                    >${{ number_format($item->price, 2) }}
+                                    each</span
+                                >
+                            </div>
+                        </div>
+
+                        <div class="item-total">
+                            <span class="total-price"
+                                >${{ number_format($item->total, 2) }}</span
+                            >
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+
+        <div class="confirmation-actions">
+            <div class="action-buttons">
+                <a href="{{ route('shop') }}" class="continue-shopping-btn"
+                    >Continue Shopping</a
+                >
+                <a href="{{ route('profile.edit') }}" class="view-orders-btn"
+                    >View Order History</a
+                >
+            </div>
+
+            <div class="order-notifications">
+                <div class="notification-card">
+                    <h4>What's Next?</h4>
+                    <ul>
+                        <li>You will receive an email confirmation shortly</li>
+                        <li>
+                            Your order will be processed within 1-2 business
+                            days
+                        </li>
+                        <li>You will receive shipping updates via email</li>
+                        <li>Estimated delivery: 3-5 business days</li>
+                    </ul>
+                </div>
+
+                <div class="notification-card">
+                    <h4>Need Help?</h4>
+                    <p>
+                        If you have any questions about your order, please
+                        contact our support team.
+                    </p>
+                    <p><strong>Email:</strong> support@wear.com</p>
+                    <p><strong>Phone:</strong> (555) 123-4567</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+```
+
+**Step 4.5.2: Add Confirmation Page CSS**
+
+Add to resources/css/app.css:
+
+```css
+/* Order Confirmation Styles */
+.order-confirmation {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+.confirmation-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.success-icon {
+    width: 80px;
+    height: 80px;
+    background: #28a745;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0 auto 1rem;
+}
+
+.confirmation-header h1 {
+    color: #28a745;
+    margin-bottom: 1rem;
+}
+
+.confirmation-message {
+    font-size: 1.1rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.order-details-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.order-header h2 {
+    color: #333;
+    margin: 0;
+}
+
+.order-status {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.status-pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-processing {
+    background: #cce5ff;
+    color: #004085;
+}
+
+.status-completed {
+    background: #d4edda;
+    color: #155724;
+}
+
+.order-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.info-section h3 {
+    color: #333;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+}
+
+.info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info-label {
+    font-weight: 500;
+    color: #666;
+}
+
+.info-value {
+    font-weight: 500;
+    color: #333;
+}
+
+.total-amount {
+    color: #28a745;
+    font-size: 1.1rem;
+}
+
+.address-display p {
+    margin: 0.25rem 0;
+    color: #555;
+}
+
+.order-items-section h3 {
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+.order-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.order-item {
+    display: grid;
+    grid-template-columns: 80px 1fr 100px;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid #eee;
+    border-radius: 8px;
+}
+
+.item-image img {
+    width: 100%;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.item-details h4 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+}
+
+.item-category {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.item-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.item-total .total-price {
+    font-weight: bold;
+    color: #28a745;
+    font-size: 1.1rem;
+}
+
+.confirmation-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.continue-shopping-btn,
+.view-orders-btn {
+    padding: 1rem;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.continue-shopping-btn {
+    background: #007bff;
+    color: white;
+}
+
+.continue-shopping-btn:hover {
+    background: #0056b3;
+}
+
+.view-orders-btn {
+    background: #28a745;
+    color: white;
+}
+
+.view-orders-btn:hover {
+    background: #218838;
+}
+
+.order-notifications {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.notification-card {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid #007bff;
+}
+
+.notification-card h4 {
+    margin: 0 0 1rem 0;
+    color: #333;
+}
+
+.notification-card ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.notification-card li {
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+.notification-card p {
+    margin: 0.5rem 0;
+    color: #555;
+}
+```
+
+**Step 4.5.4: Test Complete Order Flow**
+
+```bash
+# Complete full order flow:
+# 1. Add items to cart
+# 2. Go to checkout
+# 3. Fill out form and submit
+# 4. Verify order confirmation page displays correctly
+# 5. Check that cart is cleared after order
+# 6. Verify order appears in database
+```
+
+### Phase 4 Completion Checklist
+
+**Before marking Phase 4 complete, verify:**
+
+- [ ] Shop page displays products with search/filter/sort functionality
+- [ ] Product detail pages show dynamic data and add-to-cart works
+- [ ] Cart page shows items with quantity updates and removal
+- [ ] Checkout form validates and processes orders correctly
+- [ ] Order confirmation page displays order details properly
+- [ ] All pages are responsive and styled consistently
+- [ ] No console errors in browser developer tools
+- [ ] All forms handle validation errors gracefully
+- [ ] Cart persistence works across page reloads
+- [ ] Stock levels update correctly after orders
+
+**Phase 4 Estimated Time: 2-3 hours**
+
+---
+
+_Last updated: April 12, 2026_
+_Project completion status: ~65% → 75%_
