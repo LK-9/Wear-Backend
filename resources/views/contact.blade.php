@@ -9,7 +9,7 @@
                     <ul class="breadcrumb-content__items wow fadeInUp" data-wow-delay=".5s"
                         style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;">
                         <li>
-                            <a href='index.html'>
+                            <a href="{{ route('welcome') }}">
                                 Home
                             </a>
                         </li>
@@ -125,8 +125,8 @@
                                             fill="white" />
                                     </svg>
                                 </div>
-                                <a href="info%40demand.html" class="contact3-info__contact-items-list">
-                                    info@demand .com
+                                <a href="mailto:info@demand.com" class="contact3-info__contact-items-list">
+                                    info@demand.com
                                 </a>
                             </div>
                             <div class="contact3-info__contact-items">

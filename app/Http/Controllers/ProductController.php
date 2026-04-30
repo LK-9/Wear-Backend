@@ -41,9 +41,15 @@ class ProductController extends Controller
         return view('shop-page', compact('products', 'categories'));
     }
 
-    public function productDetails($slug)
+    public function productDetails($slug = null)
     {
-        $product = Product::with(['category', 'reviews.user'])->where('slug', $slug)->firstOrFail();
+        if (empty($slug)) {
+            return redirect()->route('shop');
+        }
+
+        $product = Product::with(['category', 'reviews.user'])
+            ->where('slug', $slug)
+            ->firstOrFail();
 
         $relatedProducts = Product::where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)

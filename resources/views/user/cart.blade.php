@@ -9,7 +9,7 @@
                     <ul class="breadcrumb-content__items wow fadeInUp" data-wow-delay=".5s"
                         style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;">
                         <li>
-                            <a href='index.html'>
+                            <a href="{{ route('welcome') }}">
                                 Home
                             </a>
                         </li>
@@ -136,7 +136,7 @@
                                 <button>Apply Coupon</button>
                             </form>
                             <div class="cart2__discount-codes-button">
-                                <a class='theme-btn style5' href='shop-page.html'>
+                                <a class='theme-btn style5' href="{{ route('shop') }}">
                                     <span>Continue Shopping</span>
                                 </a>
                             </div>
@@ -156,7 +156,7 @@
                             </div>
 
                             <div class="cart2-subtotal__checkout mt-3">
-                                <a class='theme-btn style5' href='checkout-page.html'>Proceed to checkout</a>
+                                <a class='theme-btn style5' href="{{ route('checkout') }}">Proceed to checkout</a>
                             </div>
                         </div>
                     </div>

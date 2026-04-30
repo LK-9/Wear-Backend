@@ -9,7 +9,7 @@
                     <ul class="breadcrumb-content__items wow fadeInUp" data-wow-delay=".5s"
                         style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;">
                         <li>
-                            <a href='index.html'>
+                            <a href="{{ route('welcome') }}">
                                 Home
                             </a>
                         </li>
@@ -270,7 +270,7 @@
                                                         <i class="fa-solid fa-star"></i>
                                                     </div>
                                                     <a class='shop2-product-card__title'
-                                                        href='shop-details.html'>Carhartt Essentials
+                                                        href="{{ route('shop-details') }}">Carhartt Essentials
                                                         Bag</a>
                                                     <div class="shop2-product-card__price">$75.00- $95.00</div>
                                                 </div>
@@ -297,7 +297,7 @@
                                                         <i class="fa-solid fa-star"></i>
                                                     </div>
                                                     <a class='shop2-product-card__title'
-                                                        href='shop-details.html'>Denim Skinny Jeans</a>
+                                                        href="{{ route('shop-details') }}">Denim Skinny Jeans</a>
                                                     <div class="shop2-product-card__price">$75.00- $95.00</div>
                                                 </div>
                                             </div>
@@ -323,7 +323,7 @@
                                                         <i class="fa-solid fa-star"></i>
                                                     </div>
                                                     <a class='shop2-product-card__title'
-                                                        href='shop-details.html'>Plaid Wool Winter
+                                                        href="{{ route('shop-details') }}">Plaid Wool Winter
                                                         Coat</a>
                                                     <div class="shop2-product-card__price">$75.00- $95.00</div>
                                                 </div>
@@ -349,7 +349,7 @@
                                                         <i class="fa-solid fa-star"></i>
                                                         <i class="fa-solid fa-star"></i>
                                                     </div>
-                                                    <a class='shop2-product-card__title' href='shop-details.html'>GTR
+                                                    <a class='shop2-product-card__title' href="{{ route('shop-details') }}">GTR
                                                         3 Pro Smart watch</a>
                                                     <div class="shop2-product-card__price">$75.00- $95.00</div>
                                                 </div>
@@ -375,7 +375,7 @@
                                                         <i class="fa-solid fa-star"></i>
                                                         <i class="fa-solid fa-star"></i>
                                                     </div>
-                                                    <a class='shop2-product-card__title' href='shop-details.html'>New
+                                                    <a class='shop2-product-card__title' href="{{ route('shop-details') }}">New
                                                         Balance Rainier</a>
                                                     <div class="shop2-product-card__price">$75.00- $95.00</div>
                                                 </div>
@@ -402,7 +402,7 @@
                                                         <i class="fa-solid fa-star"></i>
                                                     </div>
                                                     <a class='shop2-product-card__title'
-                                                        href='shop-details.html'>Expedita Distinctio
+                                                        href="{{ route('shop-details') }}">Expedita Distinctio
                                                         Rerum</a>
                                                     <div class="shop2-product-card__price">$75.00- $95.00</div>
                                                 </div>
@@ -429,7 +429,7 @@
                                                         <i class="fa-solid fa-star"></i>
                                                     </div>
                                                     <a class='shop2-product-card__title'
-                                                        href='shop-details.html'>Woman Full Sliv Dress</a>
+                                                        href="{{ route('shop-details') }}">Woman Full Sliv Dress</a>
                                                     <div class="shop2-product-card__price">$75.00- $95.00</div>
                                                 </div>
                                             </div>
@@ -455,7 +455,7 @@
                                                         <i class="fa-solid fa-star"></i>
                                                     </div>
                                                     <a class='shop2-product-card__title'
-                                                        href='shop-details.html'>Woolrich Waxed Patch
+                                                        href="{{ route('shop-details') }}">Woolrich Waxed Patch
                                                         Hat</a>
                                                     <div class="shop2-product-card__price">$75.00- $95.00</div>
                                                 </div>
@@ -490,7 +490,7 @@
                                                         <i class="fa-solid fa-star"></i>
                                                     </div>
                                                     <a class='shop2-product-card__title'
-                                                        href='shop-details.html'>Carhartt Essentials
+                                                        href="{{ route('shop-details') }}">Carhartt Essentials
                                                         Bag</a>
                                                     <div class="shop2-product-card__price">$75.00- $95.00</div>
                                                 </div>
@@ -518,7 +518,7 @@
                                                         <i class="fa-solid fa-star"></i>
                                                     </div>
                                                     <a class='shop2-product-card__title'
-                                                        href='shop-details.html'>Denim Skinny Jeans</a>
+                                                        href="{{ route('shop-details') }}">Denim Skinny Jeans</a>
                                                     <div class="shop2-product-card__price">$75.00- $95.00</div>
                                                 </div>
                                             </div>
@@ -545,7 +545,7 @@
                                                         <i class="fa-solid fa-star"></i>
                                                     </div>
                                                     <a class='shop2-product-card__title'
-                                                        href='shop-details.html'>Plaid Wool Winter
+                                                        href="{{ route('shop-details') }}">Plaid Wool Winter
                                                         Coat</a>
                                                     <div class="shop2-product-card__price">$75.00- $95.00</div>
                                                 </div>
@@ -572,7 +572,7 @@
                                                         <i class="fa-solid fa-star"></i>
                                                         <i class="fa-solid fa-star"></i>
                                                     </div>
-                                                    <a class='shop2-product-card__title' href='shop-details.html'>GTR
+                                                    <a class='shop2-product-card__title' href="{{ route('shop-details') }}">GTR
                                                         3 Pro Smart watch</a>
                                                     <div class="shop2-product-card__price">$75.00- $95.00</div>
                                                 </div>
@@ -599,7 +599,7 @@
                                                         <i class="fa-solid fa-star"></i>
                                                         <i class="fa-solid fa-star"></i>
                                                     </div>
-                                                    <a class='shop2-product-card__title' href='shop-details.html'>New
+                                                    <a class='shop2-product-card__title' href="{{ route('shop-details') }}">New
                                                         Balance Rainier</a>
                                                     <div class="shop2-product-card__price">$75.00- $95.00</div>
                                                 </div>
@@ -627,7 +627,7 @@
                                                         <i class="fa-solid fa-star"></i>
                                                     </div>
                                                     <a class='shop2-product-card__title'
-                                                        href='shop-details.html'>Expedita Distinctio
+                                                        href="{{ route('shop-details') }}">Expedita Distinctio
                                                         Rerum</a>
                                                     <div class="shop2-product-card__price">$75.00- $95.00</div>
                                                 </div>
@@ -655,7 +655,7 @@
                                                         <i class="fa-solid fa-star"></i>
                                                     </div>
                                                     <a class='shop2-product-card__title'
-                                                        href='shop-details.html'>Woman Full Sliv Dress</a>
+                                                        href="{{ route('shop-details') }}">Woman Full Sliv Dress</a>
                                                     <div class="shop2-product-card__price">$75.00- $95.00</div>
                                                 </div>
                                             </div>
@@ -682,7 +682,7 @@
                                                         <i class="fa-solid fa-star"></i>
                                                     </div>
                                                     <a class='shop2-product-card__title'
-                                                        href='shop-details.html'>Woolrich Waxed Patch
+                                                        href="{{ route('shop-details') }}">Woolrich Waxed Patch
                                                         Hat</a>
                                                     <div class="shop2-product-card__price">$75.00- $95.00</div>
                                                 </div>

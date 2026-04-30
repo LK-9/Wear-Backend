@@ -9,7 +9,7 @@
                     <ul class="breadcrumb-content__items wow fadeInUp" data-wow-delay=".5s"
                         style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;">
                         <li>
-                            <a href='index.html'>
+                            <a href="{{ route('welcome') }}">
                                 Home
                             </a>
                         </li>
@@ -431,7 +431,7 @@
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
                             </div>
-                            <a class='product4-card__title' href='shop-details.html'>Carhartt Essentials Bag</a>
+                            <a class='product4-card__title' href="{{ route('shop-details') }}">Carhartt Essentials Bag</a>
                             <div class="product4-card__price">$75.00- $95.00</div>
                         </div>
                     </div>
@@ -454,7 +454,7 @@
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
                             </div>
-                            <a class='product4-card__title' href='shop-details.html'>Denim Skinny Jeans</a>
+                            <a class='product4-card__title' href="{{ route('shop-details') }}">Denim Skinny Jeans</a>
                             <div class="product4-card__price">$75.00- $95.00</div>
                         </div>
                     </div>
@@ -477,7 +477,7 @@
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
                             </div>
-                            <a class='product4-card__title' href='shop-details.html'>Plaid Wool Winter Coat</a>
+                            <a class='product4-card__title' href="{{ route('shop-details') }}">Plaid Wool Winter Coat</a>
                             <div class="product4-card__price">$75.00- $95.00</div>
                         </div>
                     </div>
@@ -500,7 +500,7 @@
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
                             </div>
-                            <a class='product4-card__title' href='shop-details.html'>GTR 3 Pro Smart watch</a>
+                            <a class='product4-card__title' href="{{ route('shop-details') }}">GTR 3 Pro Smart watch</a>
                             <div class="product4-card__price">$75.00- $95.00</div>
                         </div>
                     </div>
@@ -523,7 +523,7 @@
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
                             </div>
-                            <a class='product4-card__title' href='shop-details.html'>Trainers with Broguing</a>
+                            <a class='product4-card__title' href="{{ route('shop-details') }}">Trainers with Broguing</a>
                             <div class="product4-card__price">$75.00- $95.00</div>
                         </div>
                     </div>

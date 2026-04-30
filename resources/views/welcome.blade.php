@@ -57,7 +57,7 @@
                 </div>
                 <div class="col-xl-5 d-flex align-items-center justify-content-xl-end justify-content-center">
                     <div>
-                        <a class='theme-btn style3' href='shop-page.html'><span>Shop Now</span></a>
+                        <a class='theme-btn style3' href="{{ route('shop') }}"><span>Shop Now</span></a>
                     </div>
                 </div>
             </div>
@@ -80,28 +80,28 @@
                     <div class="category1-card">
                         <div class="category1-card__thumb"><img src="assets/images/category/category-thumb1_1.jpg"
                                 alt="thumb"></div>
-                        <a class='category1-card__title' href='shop-page.html'>Clothes</a>
+                        <a class='category1-card__title' href="{{ route('shop') }}">Clothes</a>
                     </div>
                 </div>
                 <div class="col-xl-3 col-md-6">
                     <div class="category1-card">
                         <div class="category1-card__thumb"><img src="assets/images/category/category-thumb1_2.jpg"
                                 alt="thumb"></div>
-                        <a class='category1-card__title style2' href='shop-page.html'>Women’s Handbag</a>
+                        <a class='category1-card__title style2' href="{{ route('shop') }}">Women’s Handbag</a>
                     </div>
                 </div>
                 <div class="col-xl-3 col-md-6">
                     <div class="category1-card">
                         <div class="category1-card__thumb"><img src="assets/images/category/category-thumb1_3.jpg"
                                 alt="thumb"></div>
-                        <a class='category1-card__title' href='shop-page.html'>Fashion & Style</a>
+                        <a class='category1-card__title' href="{{ route('shop') }}">Fashion & Style</a>
                     </div>
                 </div>
                 <div class="col-xl-3 col-md-6">
                     <div class="category1-card">
                         <div class="category1-card__thumb"><img src="assets/images/category/category-thumb1_4.jpg"
                                 alt="thumb"></div>
-                        <a class='category1-card__title style2' href='shop-page.html'>Women’s Topwear</a>
+                        <a class='category1-card__title style2' href="{{ route('shop') }}">Women’s Topwear</a>
                     </div>
                 </div>
             </div>
@@ -168,7 +168,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -192,7 +192,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -216,7 +216,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -240,7 +240,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -264,7 +264,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -288,7 +288,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -312,7 +312,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -336,7 +336,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -360,7 +360,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -384,7 +384,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -413,7 +413,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -437,7 +437,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -461,7 +461,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -485,7 +485,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -509,7 +509,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -533,7 +533,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -557,7 +557,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -581,7 +581,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -605,7 +605,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -629,7 +629,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -658,7 +658,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -682,7 +682,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -706,7 +706,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -730,7 +730,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -754,7 +754,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -778,7 +778,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -802,7 +802,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -826,7 +826,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -850,7 +850,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -874,7 +874,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -903,7 +903,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -927,7 +927,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -951,7 +951,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -975,7 +975,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -999,7 +999,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -1023,7 +1023,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -1047,7 +1047,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -1071,7 +1071,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -1095,7 +1095,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -1119,7 +1119,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -1148,7 +1148,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -1172,7 +1172,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -1196,7 +1196,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -1220,7 +1220,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -1244,7 +1244,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -1268,7 +1268,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -1292,7 +1292,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -1316,7 +1316,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -1340,7 +1340,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -1364,7 +1364,7 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                 </div>
-                                <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                     Rerum</a>
                                 <div class="product1-card__price">$75.00- $95.00</div>
                             </div>
@@ -1374,7 +1374,7 @@
                 </div>
             </div>
 
-            <a class='theme-btn style7' href='shop-page.html' style='margin-top: 40px;'>View all</a>
+            <a class='theme-btn style7' href="{{ route('shop') }}" style='margin-top: 40px;'>View all</a>
         </div>
     </div>
 
@@ -1495,7 +1495,7 @@
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
                             </div>
-                            <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                            <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                 Rerum</a>
                             <div class="product1-card__price">$75.00- $95.00</div>
                         </div>
@@ -1519,7 +1519,7 @@
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
                             </div>
-                            <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                            <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                 Rerum</a>
                             <div class="product1-card__price">$75.00- $95.00</div>
                         </div>
@@ -1543,7 +1543,7 @@
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
                             </div>
-                            <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                            <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                 Rerum</a>
                             <div class="product1-card__price">$75.00- $95.00</div>
                         </div>
@@ -1567,7 +1567,7 @@
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
                             </div>
-                            <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                            <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                 Rerum</a>
                             <div class="product1-card__price">$75.00- $95.00</div>
                         </div>
@@ -1591,7 +1591,7 @@
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
                             </div>
-                            <a class='product1-card__title' href='shop-details.html'>Expedita Distinctio
+                            <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita Distinctio
                                 Rerum</a>
                             <div class="product1-card__price">$75.00- $95.00</div>
                         </div>
@@ -1645,7 +1645,7 @@
                     <div class="cta3__content">
                         <p class="cta3__subtitle">Shopping for real life</p>
                         <h4 class="cta3__title">Get Up To 85% OFF On Big Billion Day 2021</h4>
-                        <a class='cta3__button' href='shop-page.html'>Shop Now</a>
+                        <a class='cta3__button' href="{{ route('shop') }}">Shop Now</a>
                     </div>
                 </div>
             </div>
@@ -1664,7 +1664,7 @@
                             <div class="random-offer__title">VR Video Games</div>
                             <p class="random-offer__text">TODAY IS THE LAST OFFER</p>
                             <h4 class="random-offer__price">Only $54.99</h4>
-                            <a class='theme-btn style8' href='shop-page.html'>New collection</a>
+                            <a class='theme-btn style8' href="{{ route('shop') }}">New collection</a>
                         </div>
                     </div>
 
@@ -1711,7 +1711,7 @@
                                                     <i class="fa-solid fa-star"></i>
                                                     <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <a class='product1-card__title' href='shop-details.html'>Expedita
+                                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita
                                                     Distinctio
                                                     Rerum</a>
                                                 <div class="product1-card__price">$75.00- $95.00</div>
@@ -1739,7 +1739,7 @@
                                                     <i class="fa-solid fa-star"></i>
                                                     <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <a class='product1-card__title' href='shop-details.html'>Expedita
+                                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita
                                                     Distinctio
                                                     Rerum</a>
                                                 <div class="product1-card__price">$75.00- $95.00</div>
@@ -1767,7 +1767,7 @@
                                                     <i class="fa-solid fa-star"></i>
                                                     <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <a class='product1-card__title' href='shop-details.html'>Expedita
+                                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita
                                                     Distinctio
                                                     Rerum</a>
                                                 <div class="product1-card__price">$75.00- $95.00</div>
@@ -1795,7 +1795,7 @@
                                                     <i class="fa-solid fa-star"></i>
                                                     <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <a class='product1-card__title' href='shop-details.html'>Expedita
+                                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita
                                                     Distinctio
                                                     Rerum</a>
                                                 <div class="product1-card__price">$75.00- $95.00</div>
@@ -1830,7 +1830,7 @@
                                                     <i class="fa-solid fa-star"></i>
                                                     <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <a class='product1-card__title' href='shop-details.html'>Expedita
+                                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita
                                                     Distinctio
                                                     Rerum</a>
                                                 <div class="product1-card__price">$75.00- $95.00</div>
@@ -1858,7 +1858,7 @@
                                                     <i class="fa-solid fa-star"></i>
                                                     <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <a class='product1-card__title' href='shop-details.html'>Expedita
+                                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita
                                                     Distinctio
                                                     Rerum</a>
                                                 <div class="product1-card__price">$75.00- $95.00</div>
@@ -1886,7 +1886,7 @@
                                                     <i class="fa-solid fa-star"></i>
                                                     <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <a class='product1-card__title' href='shop-details.html'>Expedita
+                                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita
                                                     Distinctio
                                                     Rerum</a>
                                                 <div class="product1-card__price">$75.00- $95.00</div>
@@ -1914,7 +1914,7 @@
                                                     <i class="fa-solid fa-star"></i>
                                                     <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <a class='product1-card__title' href='shop-details.html'>Expedita
+                                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita
                                                     Distinctio
                                                     Rerum</a>
                                                 <div class="product1-card__price">$75.00- $95.00</div>
@@ -1949,7 +1949,7 @@
                                                     <i class="fa-solid fa-star"></i>
                                                     <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <a class='product1-card__title' href='shop-details.html'>Expedita
+                                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita
                                                     Distinctio
                                                     Rerum</a>
                                                 <div class="product1-card__price">$75.00- $95.00</div>
@@ -1977,7 +1977,7 @@
                                                     <i class="fa-solid fa-star"></i>
                                                     <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <a class='product1-card__title' href='shop-details.html'>Expedita
+                                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita
                                                     Distinctio
                                                     Rerum</a>
                                                 <div class="product1-card__price">$75.00- $95.00</div>
@@ -2005,7 +2005,7 @@
                                                     <i class="fa-solid fa-star"></i>
                                                     <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <a class='product1-card__title' href='shop-details.html'>Expedita
+                                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita
                                                     Distinctio
                                                     Rerum</a>
                                                 <div class="product1-card__price">$75.00- $95.00</div>
@@ -2033,7 +2033,7 @@
                                                     <i class="fa-solid fa-star"></i>
                                                     <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <a class='product1-card__title' href='shop-details.html'>Expedita
+                                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita
                                                     Distinctio
                                                     Rerum</a>
                                                 <div class="product1-card__price">$75.00- $95.00</div>
@@ -2099,7 +2099,7 @@
                                                     <i class="fa-solid fa-star"></i>
                                                     <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <a class='product1-card__title' href='shop-details.html'>Expedita
+                                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita
                                                     Distinctio
                                                     Rerum</a>
                                                 <div class="product1-card__price">$75.00- $95.00</div>
@@ -2127,7 +2127,7 @@
                                                     <i class="fa-solid fa-star"></i>
                                                     <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <a class='product1-card__title' href='shop-details.html'>Expedita
+                                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita
                                                     Distinctio
                                                     Rerum</a>
                                                 <div class="product1-card__price">$75.00- $95.00</div>
@@ -2155,7 +2155,7 @@
                                                     <i class="fa-solid fa-star"></i>
                                                     <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <a class='product1-card__title' href='shop-details.html'>Expedita
+                                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita
                                                     Distinctio
                                                     Rerum</a>
                                                 <div class="product1-card__price">$75.00- $95.00</div>
@@ -2183,7 +2183,7 @@
                                                     <i class="fa-solid fa-star"></i>
                                                     <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <a class='product1-card__title' href='shop-details.html'>Expedita
+                                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita
                                                     Distinctio
                                                     Rerum</a>
                                                 <div class="product1-card__price">$75.00- $95.00</div>
@@ -2218,7 +2218,7 @@
                                                     <i class="fa-solid fa-star"></i>
                                                     <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <a class='product1-card__title' href='shop-details.html'>Expedita
+                                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita
                                                     Distinctio
                                                     Rerum</a>
                                                 <div class="product1-card__price">$75.00- $95.00</div>
@@ -2246,7 +2246,7 @@
                                                     <i class="fa-solid fa-star"></i>
                                                     <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <a class='product1-card__title' href='shop-details.html'>Expedita
+                                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita
                                                     Distinctio
                                                     Rerum</a>
                                                 <div class="product1-card__price">$75.00- $95.00</div>
@@ -2274,7 +2274,7 @@
                                                     <i class="fa-solid fa-star"></i>
                                                     <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <a class='product1-card__title' href='shop-details.html'>Expedita
+                                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita
                                                     Distinctio
                                                     Rerum</a>
                                                 <div class="product1-card__price">$75.00- $95.00</div>
@@ -2302,7 +2302,7 @@
                                                     <i class="fa-solid fa-star"></i>
                                                     <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <a class='product1-card__title' href='shop-details.html'>Expedita
+                                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita
                                                     Distinctio
                                                     Rerum</a>
                                                 <div class="product1-card__price">$75.00- $95.00</div>
@@ -2337,7 +2337,7 @@
                                                     <i class="fa-solid fa-star"></i>
                                                     <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <a class='product1-card__title' href='shop-details.html'>Expedita
+                                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita
                                                     Distinctio
                                                     Rerum</a>
                                                 <div class="product1-card__price">$75.00- $95.00</div>
@@ -2365,7 +2365,7 @@
                                                     <i class="fa-solid fa-star"></i>
                                                     <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <a class='product1-card__title' href='shop-details.html'>Expedita
+                                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita
                                                     Distinctio
                                                     Rerum</a>
                                                 <div class="product1-card__price">$75.00- $95.00</div>
@@ -2393,7 +2393,7 @@
                                                     <i class="fa-solid fa-star"></i>
                                                     <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <a class='product1-card__title' href='shop-details.html'>Expedita
+                                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita
                                                     Distinctio
                                                     Rerum</a>
                                                 <div class="product1-card__price">$75.00- $95.00</div>
@@ -2421,7 +2421,7 @@
                                                     <i class="fa-solid fa-star"></i>
                                                     <i class="fa-solid fa-star"></i>
                                                 </div>
-                                                <a class='product1-card__title' href='shop-details.html'>Expedita
+                                                <a class='product1-card__title' href="{{ route('shop-details') }}">Expedita
                                                     Distinctio
                                                     Rerum</a>
                                                 <div class="product1-card__price">$75.00- $95.00</div>
@@ -2441,7 +2441,7 @@
                             <div class="random-offer__title">VR Video Games</div>
                             <p class="random-offer__text">TODAY IS THE LAST OFFER</p>
                             <h4 class="random-offer__price">Only $54.99</h4>
-                            <a class='theme-btn style8' href='shop-page.html'>New collection</a>
+                            <a class='theme-btn style8' href="{{ route('shop') }}">New collection</a>
                         </div>
                     </div>
                     <!--  -->
@@ -2501,10 +2501,10 @@
                                     24
                                 </div>
                             </div>
-                            <a class='blog1-card__title' href='blog-details.html'>But I must explain to you how all
+                            <a class='blog1-card__title' href="{{ route('blog-details') }}">But I must explain to you how all
                                 this
                                 mistaken idea</a>
-                            <a class='blog1-card__link' href='blog-details.html'>Read More <i
+                            <a class='blog1-card__link' href="{{ route('blog-details') }}">Read More <i
                                     class="fa-solid fa-arrow-right"></i></a>
                         </div>
 
@@ -2549,9 +2549,9 @@
                                     24
                                 </div>
                             </div>
-                            <a class='blog1-card__title' href='blog-details.html'>Why is a ticket to Lagos so
+                            <a class='blog1-card__title' href="{{ route('blog-details') }}">Why is a ticket to Lagos so
                                 Expensive?</a>
-                            <a class='blog1-card__link' href='blog-details.html'>Read More <i
+                            <a class='blog1-card__link' href="{{ route('blog-details') }}">Read More <i
                                     class="fa-solid fa-arrow-right"></i></a>
                         </div>
 
@@ -2596,10 +2596,10 @@
                                     24
                                 </div>
                             </div>
-                            <a class='blog1-card__title' href='blog-details.html'>Stylish Collection for your
+                            <a class='blog1-card__title' href="{{ route('blog-details') }}">Stylish Collection for your
                                 Holiday
                                 What to Wear to Workout</a>
-                            <a class='blog1-card__link' href='blog-details.html'>Read More <i
+                            <a class='blog1-card__link' href="{{ route('blog-details') }}">Read More <i
                                     class="fa-solid fa-arrow-right"></i></a>
                         </div>
 

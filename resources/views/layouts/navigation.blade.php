@@ -18,10 +18,10 @@
                     <a href='#'> Shop
                     </a>
                     <ul class="sub-menu">
-                        <li><a href='shop-page.html'>Shop Page</a></li>
-                        <li><a href='shop-details.html'>Shop Details</a></li>
-                        <li><a href='cart.html'>Cart Page</a></li>
-                        <li><a href='checkout-page.html'>Checkout Page</a></li>
+                        <li><a href="{{ route('shop') }}">Shop Page</a></li>
+                        <li><a href="{{ route('shop-details') }}">Shop Details</a></li>
+                        <li><a href="{{ route('cart') }}">Cart Page</a></li>
+                        <li><a href="{{ route('checkout') }}">Checkout Page</a></li>
                     </ul>
                 </li>
 
@@ -145,7 +145,7 @@
 
 
                         <div class="header__icon">
-                            <a href='cart.html'>
+                            <a href="{{ route('cart') }}">
                                 <span class="header__icon">
                                     <img src="assets/images/header/prodect-icon.png" alt="icon">
                                 </span>

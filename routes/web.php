@@ -15,7 +15,7 @@ Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
 // Shop & Products
 Route::get('/shop', [ProductController::class, 'productPage'])->name('shop');
-Route::get('/shop-details', [ProductController::class, 'productDetails'])->name('shop-details');
+Route::get('/shop-details/{slug?}', [ProductController::class, 'productDetails'])->name('shop-details');
 
 // Blog
 Route::get('/blog', [BlogController::class, 'blog'])->name('blog');

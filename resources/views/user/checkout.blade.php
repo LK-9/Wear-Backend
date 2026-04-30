@@ -9,7 +9,7 @@
                     <ul class="breadcrumb-content__items wow fadeInUp" data-wow-delay=".5s"
                         style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;">
                         <li>
-                            <a href='index.html'>
+                            <a href="{{ route('welcome') }}">
                                 Home
                             </a>
                         </li>

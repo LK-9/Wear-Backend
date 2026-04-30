@@ -9,7 +9,7 @@
                     <ul class="breadcrumb-content__items wow fadeInUp" data-wow-delay=".5s"
                         style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;">
                         <li>
-                            <a href='index.html'>
+                            <a href="{{ route('welcome') }}">
                                 Home
                             </a>
                         </li>
@@ -415,23 +415,23 @@
                             <div class="main-sidebar2-widget__categories wow fadeInUp" data-wow-delay=".5s">
                                 <ul class="main-sidebar2-widget__categories-items">
                                     <li class="main-sidebar2-widget__categories-items-text"><a
-                                            href='blog-details.html'>Accessories</a>
+                                            href="{{ route('blog-details') }}">Accessories</a>
                                         <span><i class="fa-solid fa-angle-right"></i></span>
                                     </li>
                                     <li class="main-sidebar2-widget__categories-items-text"><a
-                                            href='blog-details.html'>Collection</a><span><i
+                                            href="{{ route('blog-details') }}">Collection</a><span><i
                                                 class="fa-solid fa-angle-right"></i></span></li>
                                     <li class="main-sidebar2-widget__categories-items-text"><a
-                                            href='blog-details.html'>Fashion</a><span><i
+                                            href="{{ route('blog-details') }}">Fashion</a><span><i
                                                 class="fa-solid fa-angle-right"></i></span></li>
                                     <li class="main-sidebar2-widget__categories-items-text"><a
-                                            href='blog-details.html'>Interior</a><span><i
+                                            href="{{ route('blog-details') }}">Interior</a><span><i
                                                 class="fa-solid fa-angle-right"></i></span></li>
                                     <li class="main-sidebar2-widget__categories-items-text"><a
-                                            href='blog-details.html'>Lifestyle</a><span><i
+                                            href="{{ route('blog-details') }}">Lifestyle</a><span><i
                                                 class="fa-solid fa-angle-right"></i></span></li>
                                     <li class="main-sidebar2-widget__categories-items-text"><a
-                                            href='blog-details.html'>On Point
+                                            href="{{ route('blog-details') }}">On Point
                                             Distribution</a><span><i class="fa-solid fa-angle-right"></i></span></li>
                                 </ul>
                             </div>
@@ -471,7 +471,7 @@
                                             </li>
                                         </ul>
                                         <div class="main-sidebar2-widget__post-items-content-title">
-                                            <a href='blog-details.html'>
+                                            <a href="{{ route('blog-details') }}">
                                                 This Place Really Place For Awesome Moment
                                             </a>
                                         </div>
@@ -506,7 +506,7 @@
                                             </li>
                                         </ul>
                                         <div class="main-sidebar2-widget__post-items-content-title">
-                                            <a href='blog-details.html'>
+                                            <a href="{{ route('blog-details') }}">
                                                 This Place Really Place For Awesome Moment
                                             </a>
                                         </div>
@@ -541,7 +541,7 @@
                                             </li>
                                         </ul>
                                         <div class="main-sidebar2-widget__post-items-content-title">
-                                            <a href='blog-details.html'>
+                                            <a href="{{ route('blog-details') }}">
                                                 This Place Really Place For Awesome Moment
                                             </a>
                                         </div>
@@ -557,15 +557,15 @@
                             </div>
                             <div class="main-sidebar2-widget__tags">
                                 <div class="main-sidebar2-widget__tags-tagcloud">
-                                    <a href='blog-details.html'>Social Media</a>
-                                    <a class='active' href='blog-details.html'>Digital</a>
-                                    <a href='blog-details.html'>Marketing</a>
-                                    <a href='blog-details.html'>Social</a>
-                                    <a href='blog-details.html'>SEO Services</a>
-                                    <a href='blog-details.html'>SEO </a>
-                                    <a href='blog-details.html'>Education</a>
-                                    <a href='blog-details.html'>America</a>
-                                    <a href='blog-details.html'>Analysis</a>
+                                    <a href="{{ route('blog-details') }}">Social Media</a>
+                                    <a class='active' href="{{ route('blog-details') }}">Digital</a>
+                                    <a href="{{ route('blog-details') }}">Marketing</a>
+                                    <a href="{{ route('blog-details') }}">Social</a>
+                                    <a href="{{ route('blog-details') }}">SEO Services</a>
+                                    <a href="{{ route('blog-details') }}">SEO </a>
+                                    <a href="{{ route('blog-details') }}">Education</a>
+                                    <a href="{{ route('blog-details') }}">America</a>
+                                    <a href="{{ route('blog-details') }}">Analysis</a>
                                 </div>
                             </div>
                         </div>
