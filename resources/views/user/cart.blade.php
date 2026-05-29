@@ -14,7 +14,7 @@
                             </a>
                         </li>
                         <li>
-                            Shop
+                            Cart
                         </li>
                     </ul>
                 </div>
@@ -23,7 +23,7 @@
     </div>
 
 
-    <!--===== Special Product  Section    S T A R T =====-->
+    <!--===== Cart Section =====-->
     <div class="cart2 section-padding fix">
         <div class="container">
             <div class="cart2-wrapper">
@@ -35,95 +35,64 @@
                         <div class="cart2__table-col-price">Price</div>
                         <div class="cart2__table-col-remove">Action</div>
                     </div>
-                    <div class="cart2-items">
-                        <div class="cart2-items__info">
-                            <div class="cart2-items__info-product">
-                                <div class="cart2-items__info-product-image">
-                                    <img src="assets/images/cart/cart-thumb1_1.jpg" alt="image">
-                                </div>
-                                <div class="cart2-items__info-product-content">
-                                    <div class="cart2-items__info-product-content-title">Blue Flower Print Crop Top
+
+                    @if($cart->items->isEmpty())
+                        <div class="cart2-items text-center py-8">
+                            <p class="fs-4">Your cart is currently empty.</p>
+                            <a class="theme-btn style5" href="{{ route('shop') }}">Continue Shopping</a>
+                        </div>
+                    @else
+                        <div class="cart2-items">
+                            @foreach($cart->items as $item)
+                                @php
+                                    $product = $item->product;
+                                    $image = $product->images->first()?->path;
+                                @endphp
+                                <div class="cart2-items__info">
+                                    <div class="cart2-items__info-product">
+                                        <div class="cart2-items__info-product-image">
+                                            <img src="{{ $image ? asset($image) : asset('assets/images/cart/cart-thumb1_1.jpg') }}" alt="{{ $product->name }}">
+                                        </div>
+                                        <div class="cart2-items__info-product-content">
+                                            <div class="cart2-items__info-product-content-title">{{ $product->name }}</div>
+                                            <p class="cart2-items__info-product-content-subtitle">Price: ${{ number_format($product->price, 2) }}</p>
+                                            <p class="cart2-items__info-product-content-subtitle2">SKU: {{ $product->id }}</p>
+                                        </div>
                                     </div>
-                                    <p class="cart2-items__info-product-content-subtitle">Color : Yellow</p>
-                                    <p class="cart2-items__info-product-content-subtitle2">Size : M</p>
-                                </div>
-                            </div>
-                            <div class="cart2-items__info-quantity">
-                                <button class="quantity-minus qty-btn"><i class="far fa-minus"></i></button>
-                                <input type="number" class="qty-input" value="1" min="1" max="99">
-                                <button class="quantity-plus qty-btn"><i class="far fa-plus"></i></button>
-                            </div>
 
-                            <div class="cart2-items__info-subtitle">
-                                <span>FREE</span>
-                            </div>
-                            <div class="cart2-items__info-price">
-                                <span class="amount"><bdi><span>$</span>29.00</bdi></span>
-                            </div>
-                            <div class="cart2-items__info-delete">
-                                <img src="assets/images/cart/delete-icon.png" alt="delete">
-                            </div>
+                                    <div class="cart2-items__info-quantity">
+                                        <form method="POST" action="{{ route('cart.update', $item) }}">
+                                            @csrf
+                                            @method('PATCH')
+                                            <div class="d-flex align-items-center gap-2">
+                                                <input type="number" name="quantity" value="{{ $item->quantity }}" min="1" max="99" class="qty-input" />
+                                                <button type="submit" class="theme-btn style5">Update</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <div class="cart2-items__info-subtitle">
+                                        <span>FREE</span>
+                                    </div>
+                                    <div class="cart2-items__info-price">
+                                        <span class="amount"><bdi><span>$</span>{{ number_format($item->total, 2) }}</bdi></span>
+                                    </div>
+                                    <div class="cart2-items__info-delete">
+                                        <form method="POST" action="{{ route('cart.remove', $item) }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="border-0 bg-transparent p-0">
+                                                <img src="{{ asset('assets/images/cart/delete-icon.png') }}" alt="delete">
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
-                        <div class="cart2-items__info">
-                            <div class="cart2-items__info-product">
-                                <div class="cart2-items__info-product-image">
-                                    <img src="assets/images/cart/cart-thumb1_2.jpg" alt="image">
-                                </div>
-                                <div class="cart2-items__info-product-content">
-                                    <div class="cart2-items__info-product-content-title">Levender Hoodie</div>
-                                    <p class="cart2-items__info-product-content-subtitle">Color : Levender</p>
-                                    <p class="cart2-items__info-product-content-subtitle2">Size : XXL</p>
-                                </div>
-                            </div>
-                            <div class="cart2-items__info-quantity">
-                                <button class="quantity-minus qty-btn"><i class="far fa-minus"></i></button>
-                                <input type="number" class="qty-input" value="1" min="1" max="99">
-                                <button class="quantity-plus qty-btn"><i class="far fa-plus"></i></button>
-                            </div>
-
-                            <div class="cart2-items__info-subtitle">
-                                <span>FREE</span>
-                            </div>
-                            <div class="cart2-items__info-price">
-                                <span class="amount"><bdi><span>$</span>119.00</bdi></span>
-                            </div>
-                            <div class="cart2-items__info-delete">
-                                <img src="assets/images/cart/delete-icon.png" alt="delete">
-                            </div>
-                        </div>
-                        <div class="cart2-items__info">
-                            <div class="cart2-items__info-product">
-                                <div class="cart2-items__info-product-image">
-                                    <img src="assets/images/cart/cart-thumb1_3.jpg" alt="image">
-                                </div>
-                                <div class="cart2-items__info-product-content">
-                                    <div class="cart2-items__info-product-content-title">Black Sweatshirt</div>
-                                    <p class="cart2-items__info-product-content-subtitle">Color : Black</p>
-                                    <p class="cart2-items__info-product-content-subtitle2">Size : XXL</p>
-                                </div>
-                            </div>
-
-                            <div class="cart2-items__info-quantity">
-                                <button class="quantity-minus qty-btn"><i class="far fa-minus"></i></button>
-                                <input type="number" class="qty-input" value="1" min="1" max="99">
-                                <button class="quantity-plus qty-btn"><i class="far fa-plus"></i></button>
-                            </div>
-
-
-                            <div class="cart2-items__info-subtitle">
-                                <span>$5.00</span>
-                            </div>
-
-                            <div class="cart2-items__info-price">
-                                <span class="amount"><bdi><span>$</span>123.00</bdi></span>
-                            </div>
-                            <div class="cart2-items__info-delete">
-                                <img src="assets/images/cart/delete-icon.png" alt="delete">
-                            </div>
-                        </div>
-                    </div>
+                    @endif
                 </div>
             </div>
+
             <div class="row d-flex justify-content-center">
                 <div class="col-lg-10 col-md-12">
                     <div class="cart2-items-count">
@@ -144,20 +113,29 @@
                         <div class="cart2-subtotal">
                             <div class="cart2-subtotal__totals">
                                 <p class="cart2-subtotal__totals-subtitle">Sub Total</p>
-                                <span class="cart2-subtotal__totals-amount"><bdi><span>$</span>513.00</bdi></span>
+                                <span class="cart2-subtotal__totals-amount"><bdi><span>$</span>{{ number_format($cart->total, 2) }}</bdi></span>
                             </div>
                             <div class="cart2-subtotal__totals">
                                 <p class="cart2-subtotal__totals-subtitle">Shipping</p>
-                                <span class="cart2-subtotal__totals-amount"><bdi><span>$</span>5.00</bdi></span>
+                                <span class="cart2-subtotal__totals-amount"><bdi><span>$</span>0.00</bdi></span>
                             </div>
                             <div class="cart2-subtotal__totals mt-5 border-bottom">
                                 <p class="cart2-subtotal__totals-subtitle">Grand Total</p>
-                                <span class="cart2-subtotal__totals-amount"><bdi><span>$</span>518.00</bdi></span>
+                                <span class="cart2-subtotal__totals-amount"><bdi><span>$</span>{{ number_format($cart->total, 2) }}</bdi></span>
                             </div>
 
                             <div class="cart2-subtotal__checkout mt-3">
                                 <a class='theme-btn style5' href="{{ route('checkout') }}">Proceed to checkout</a>
                             </div>
+                            @if(!$cart->items->isEmpty())
+                                <div class="mt-3">
+                                    <form method="POST" action="{{ route('cart.clear') }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="theme-btn style5">Clear Cart</button>
+                                    </form>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
